@@ -1,0 +1,17 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "hello": "Hello, {name}!",
+    "loading": "Loading...",
+    "error": "An error occurred"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "home": {
+    "title": "Welcome to our website",
+    "description": "This is a multilingual website built with Next.js and next-intl"
+  }
+}

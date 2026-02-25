@@ -1,0 +1,17 @@
+{
+  "common": {
+    "welcome": "欢迎",
+    "hello": "你好，{name}！",
+    "loading": "加载中...",
+    "error": "发生错误"
+  },
+  "nav": {
+    "home": "首页",
+    "about": "关于",
+    "contact": "联系"
+  },
+  "home": {
+    "title": "欢迎访问我们的网站",
+    "description": "这是一个使用 Next.js 和 next-intl 构建的多语言网站"
+  }
+}
