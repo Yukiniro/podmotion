@@ -1,17 +1,92 @@
 {
   "common": {
-    "welcome": "Welcome",
-    "hello": "Hello, {name}!",
+    "back": "Back",
     "loading": "Loading...",
-    "error": "An error occurred"
-  },
-  "nav": {
-    "home": "Home",
-    "about": "About",
-    "contact": "Contact"
+    "error": "An error occurred",
+    "youtubeToPocast": "YouTube to Podcast"
   },
   "home": {
-    "title": "Welcome to our website",
-    "description": "This is a multilingual website built with Next.js and next-intl"
+    "title": "Turn any YouTube video into a podcast",
+    "description": "Extract subtitles, generate scripts with emotions, and produce expressive audio.",
+    "placeholder": "Paste a YouTube URL...",
+    "start": "Start",
+    "errorEmpty": "Please enter a YouTube video URL",
+    "errorInvalid": "Please enter a valid YouTube URL",
+    "steps": {
+      "aiScript": "AI Script Generation",
+      "emotionTagging": "Emotion Tagging",
+      "expressiveAudio": "Expressive Audio",
+      "aiChat": "AI Chat Assistant"
+    }
+  },
+  "preview": {
+    "podcastConfig": "Podcast Configuration",
+    "generateScript": "Generate Podcast Script",
+    "subtitles": "Subtitles",
+    "contentSummary": "Content Summary",
+    "style": "Style",
+    "styles": {
+      "popular-science": {
+        "label": "Popular Science",
+        "description": "Easy-to-understand explanations"
+      },
+      "news": {
+        "label": "News Brief",
+        "description": "Formal, objective reporting"
+      },
+      "interview": {
+        "label": "Deep Interview",
+        "description": "In-depth Q&A dialogue"
+      },
+      "casual": {
+        "label": "Casual Chat",
+        "description": "Relaxed conversation style"
+      },
+      "narrative": {
+        "label": "Storytelling",
+        "description": "Immersive narrative"
+      }
+    },
+    "speakers": "Speakers",
+    "solo": "Solo",
+    "duo": "Duo",
+    "language": "Language",
+    "english": "English",
+    "chinese": "Chinese",
+    "voice": "Voice",
+    "voicePreview": "Preview",
+    "male": "M",
+    "female": "F"
+  },
+  "workspace": {
+    "regenerate": "Regenerate",
+    "generateAll": "Generate All",
+    "generating": "Generating {progress}/{total}...",
+    "aiAssistant": "AI Assistant",
+    "askAnything": "Ask anything...",
+    "addSegment": "Add Segment",
+    "export": "Export",
+    "regenerateAudio": "Regenerate audio",
+    "audioStatus": {
+      "ready": "Ready",
+      "generating": "Generating...",
+      "modified": "Modified",
+      "failed": "Failed",
+      "pending": "Pending"
+    },
+    "contentModified": "Content modified",
+    "noAudio": "No audio",
+    "generate": "Generate",
+    "applied": "Applied",
+    "chatWelcome": "Hello! I'm your podcast AI assistant. You can:\n\n- Ask me about the video content\n- Ask me to optimize specific script segments\n- Request batch emotion tagging\n- Adjust dialogue rhythm and style"
+  },
+  "export": {
+    "title": "Your podcast is ready",
+    "subtitle": "Review details and download.",
+    "regenerate": "Regenerate",
+    "fieldTitle": "Title",
+    "fieldDescription": "Description",
+    "preview": "Preview",
+    "download": "Download (MP3)"
   }
 }

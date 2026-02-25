@@ -1,22 +1,34 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { ArrowLeft, Download, Play, Pause, RefreshCw, Music, ImageIcon, FileText } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Skeleton } from "@/components/ui/skeleton"
-import { PodCraftLogo } from "@/components/podcraft-logo"
+import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
+import {
+  ArrowLeft,
+  Download,
+  Play,
+  Pause,
+  RefreshCw,
+  Music,
+  ImageIcon,
+  FileText,
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Skeleton } from '@/components/ui/skeleton'
+import { PodCraftLogo } from '@/components/podcraft-logo'
 
 interface ExportPageProps {
   onBack: () => void
 }
 
 export function ExportPage({ onBack }: ExportPageProps) {
+  const t = useTranslations('export')
+  const tc = useTranslations('common')
   const [coverLoading, setCoverLoading] = useState(true)
-  const [title, setTitle] = useState("AI in Education -- A Revolution in Personalized Learning")
+  const [title, setTitle] = useState('AI in Education -- A Revolution in Personalized Learning')
   const [description, setDescription] = useState(
-    "This episode explores how artificial intelligence is transforming the education landscape, from personalized learning paths to intelligent assessment systems."
+    'This episode explores how artificial intelligence is transforming the education landscape, from personalized learning paths to intelligent assessment systems.'
   )
   const [playing, setPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -44,7 +56,7 @@ export function ExportPage({ onBack }: ExportPageProps) {
   const formatTime = (s: number) => {
     const m = Math.floor(s / 60)
     const sec = Math.floor(s % 60)
-    return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`
+    return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
   }
 
   return (
@@ -58,23 +70,20 @@ export function ExportPage({ onBack }: ExportPageProps) {
           className="gap-2 text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back
+          {tc('back')}
         </Button>
         <PodCraftLogo />
       </header>
 
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-6 py-14">
         {/* Title */}
-        <div className="mb-10 flex flex-col items-center gap-1 animate-fade-in-up">
-          <h1 className="text-xl font-semibold text-foreground">Your podcast is ready</h1>
-          <p className="text-sm text-muted-foreground">Review details and download.</p>
+        <div className="animate-fade-in-up mb-10 flex flex-col items-center gap-1">
+          <h1 className="text-xl font-semibold text-foreground">{t('title')}</h1>
+          <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
 
         {/* Info */}
-        <div
-          className="w-full animate-fade-in-up"
-          style={{ animationDelay: "0.1s" }}
-        >
+        <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.1s' }}>
           <div className="flex gap-5">
             {/* Cover */}
             <div className="flex shrink-0 flex-col gap-2">
@@ -95,14 +104,14 @@ export function ExportPage({ onBack }: ExportPageProps) {
                 }}
               >
                 <RefreshCw className="h-3 w-3" />
-                Regenerate
+                {t('regenerate')}
               </Button>
             </div>
 
             {/* Fields */}
             <div className="flex flex-1 flex-col gap-3">
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-muted-foreground">Title</label>
+                <label className="text-xs text-muted-foreground">{t('fieldTitle')}</label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -110,7 +119,7 @@ export function ExportPage({ onBack }: ExportPageProps) {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <label className="text-xs text-muted-foreground">Description</label>
+                <label className="text-xs text-muted-foreground">{t('fieldDescription')}</label>
                 <Textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -125,11 +134,10 @@ export function ExportPage({ onBack }: ExportPageProps) {
         <div className="my-8 h-px w-full bg-border" />
 
         {/* Player */}
-        <div
-          className="w-full animate-fade-in-up"
-          style={{ animationDelay: "0.2s" }}
-        >
-          <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">Preview</h3>
+        <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.2s' }}>
+          <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+            {t('preview')}
+          </h3>
           <div className="flex items-center gap-3">
             <Button
               variant="ghost"
@@ -155,14 +163,12 @@ export function ExportPage({ onBack }: ExportPageProps) {
 
         {/* Download */}
         <div
-          className="mt-10 flex flex-col items-center gap-3 animate-fade-in-up"
-          style={{ animationDelay: "0.3s" }}
+          className="animate-fade-in-up mt-10 flex flex-col items-center gap-3"
+          style={{ animationDelay: '0.3s' }}
         >
-          <Button
-            className="gap-2 rounded-lg bg-foreground px-10 py-2.5 text-sm text-background hover:bg-foreground/90"
-          >
+          <Button className="gap-2 rounded-lg bg-foreground px-10 py-2.5 text-sm text-background hover:bg-foreground/90">
             <Download className="h-4 w-4" />
-            Download (MP3)
+            {t('download')}
           </Button>
           <div className="flex items-center gap-4 text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1">

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAtomValue } from 'jotai'
 
 import { Skeleton } from '@/components/ui/skeleton'
@@ -9,6 +10,7 @@ import { videoLoadingAtom } from '@/lib/atoms/preview-atoms'
 const MOCK_SUMMARY = `This video explores the latest applications of artificial intelligence in the education sector, covering three core areas: personalized learning paths, intelligent assessment systems, and virtual teaching assistants. Through concrete case studies, the presenter demonstrates how AI can enhance teaching efficiency while also examining the ethical implications and privacy concerns that arise from such technological integration.`
 
 export function AISummary() {
+  const t = useTranslations('preview')
   const loading = useAtomValue(videoLoadingAtom)
   const [summaryText, setSummaryText] = useState('')
   const [summaryLoading, setSummaryLoading] = useState(true)
@@ -31,7 +33,7 @@ export function AISummary() {
   return (
     <section>
       <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        Content Summary
+        {t('contentSummary')}
       </h3>
       {loading ? (
         <div className="flex flex-col gap-2">

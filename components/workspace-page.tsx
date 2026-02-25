@@ -1,6 +1,7 @@
-"use client"
+'use client'
 
-import { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef } from 'react'
+import { useTranslations } from 'next-intl'
 import {
   ArrowLeft,
   Play,
@@ -18,19 +19,19 @@ import {
   Loader2,
   PanelRightOpen,
   PanelRightClose,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { PodCraftLogo } from "@/components/podcraft-logo"
+} from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { PodCraftLogo } from '@/components/podcraft-logo'
 import {
   EMOTION_COLORS,
   EMOTION_LABELS,
   INTENSITY_LABELS,
   type ScriptParagraph,
   type ChatMessage,
-} from "@/lib/store"
+} from '@/lib/store'
 
 interface WorkspacePageProps {
   onBack: () => void
@@ -39,57 +40,59 @@ interface WorkspacePageProps {
 
 const INITIAL_PARAGRAPHS: ScriptParagraph[] = [
   {
-    id: "p1",
-    speaker: "A",
+    id: 'p1',
+    speaker: 'A',
     text: "Today we're going to talk about a really fascinating topic -- how artificial intelligence is revolutionizing the education sector. The progress we've been seeing lately is genuinely exciting!",
-    emotions: [{ start: 150, end: 175, emotion: "excited", intensity: "strong" }],
-    audioStatus: "generated",
+    emotions: [{ start: 150, end: 175, emotion: 'excited', intensity: 'strong' }],
+    audioStatus: 'generated',
     audioDuration: 23,
   },
   {
-    id: "p2",
-    speaker: "B",
-    text: "Absolutely! I came across a video the other day that was all about this. Did you know that some schools are already using AI to create personalized learning paths for every single student?",
-    emotions: [{ start: 130, end: 185, emotion: "surprised", intensity: "moderate" }],
-    audioStatus: "generated",
+    id: 'p2',
+    speaker: 'B',
+    text: 'Absolutely! I came across a video the other day that was all about this. Did you know that some schools are already using AI to create personalized learning paths for every single student?',
+    emotions: [{ start: 130, end: 185, emotion: 'surprised', intensity: 'moderate' }],
+    audioStatus: 'generated',
     audioDuration: 18,
   },
   {
-    id: "p3",
-    speaker: "A",
-    text: "Yes, and the results are remarkable. The biggest issue with traditional education has always been the one-size-fits-all approach, but every student has a different foundation and learning rhythm.",
-    emotions: [{ start: 160, end: 190, emotion: "serious", intensity: "moderate" }],
-    audioStatus: "generating",
+    id: 'p3',
+    speaker: 'A',
+    text: 'Yes, and the results are remarkable. The biggest issue with traditional education has always been the one-size-fits-all approach, but every student has a different foundation and learning rhythm.',
+    emotions: [{ start: 160, end: 190, emotion: 'serious', intensity: 'moderate' }],
+    audioStatus: 'generating',
   },
   {
-    id: "p4",
-    speaker: "B",
+    id: 'p4',
+    speaker: 'B',
     text: "That's incredible! So how exactly does it work? I mean, how does the AI figure out what each student needs?",
-    emotions: [{ start: 0, end: 22, emotion: "excited", intensity: "strong" }],
-    audioStatus: "none",
+    emotions: [{ start: 0, end: 22, emotion: 'excited', intensity: 'strong' }],
+    audioStatus: 'none',
   },
   {
-    id: "p5",
-    speaker: "A",
+    id: 'p5',
+    speaker: 'A',
     text: "Great question. It starts by analyzing each student's performance data -- test scores, time spent on problems, areas where they struggle. Then the AI adapts the curriculum in real-time.",
     emotions: [],
-    audioStatus: "none",
+    audioStatus: 'none',
   },
 ]
 
 const INITIAL_MESSAGES: ChatMessage[] = [
   {
-    id: "m1",
-    role: "assistant",
+    id: 'm1',
+    role: 'assistant',
     content:
       "Hello! I'm your podcast AI assistant. You can:\n\n- Ask me about the video content\n- Ask me to optimize specific script segments\n- Request batch emotion tagging\n- Adjust dialogue rhythm and style",
   },
 ]
 
 export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
+  const t = useTranslations('workspace')
+  const tc = useTranslations('common')
   const [paragraphs, setParagraphs] = useState<ScriptParagraph[]>(INITIAL_PARAGRAPHS)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
-  const [chatInput, setChatInput] = useState("")
+  const [chatInput, setChatInput] = useState('')
   const [showChat, setShowChat] = useState(true)
   const [playingAll, setPlayingAll] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -100,16 +103,16 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
   const chatEndRef = useRef<HTMLDivElement>(null)
 
   const totalDuration = paragraphs.reduce((sum, p) => sum + (p.audioDuration || 0), 0)
-  const allGenerated = paragraphs.every((p) => p.audioStatus === "generated")
+  const allGenerated = paragraphs.every((p) => p.audioStatus === 'generated')
 
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [chatMessages])
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setParagraphs((prev) =>
-        prev.map((p) => (p.id === "p3" ? { ...p, audioStatus: "generated", audioDuration: 21 } : p))
+        prev.map((p) => (p.id === 'p3' ? { ...p, audioStatus: 'generated', audioDuration: 21 } : p))
       )
     }, 3000)
     return () => clearTimeout(timer)
@@ -117,33 +120,46 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
 
   const handleGenerateSingle = (id: string) => {
     setParagraphs((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, audioStatus: "generating" } : p))
+      prev.map((p) => (p.id === id ? { ...p, audioStatus: 'generating' } : p))
     )
-    setTimeout(() => {
-      setParagraphs((prev) =>
-        prev.map((p) =>
-          p.id === id ? { ...p, audioStatus: "generated", audioDuration: 12 + Math.floor(Math.random() * 15) } : p
+    setTimeout(
+      () => {
+        setParagraphs((prev) =>
+          prev.map((p) =>
+            p.id === id
+              ? {
+                  ...p,
+                  audioStatus: 'generated',
+                  audioDuration: 12 + Math.floor(Math.random() * 15),
+                }
+              : p
+          )
         )
-      )
-    }, 2000 + Math.random() * 2000)
+      },
+      2000 + Math.random() * 2000
+    )
   }
 
   const handleGenerateAll = () => {
     setGeneratingAll(true)
     setGeneratingProgress(0)
-    const ungenerated = paragraphs.filter((p) => p.audioStatus !== "generated")
+    const ungenerated = paragraphs.filter((p) => p.audioStatus !== 'generated')
     let count = 0
 
     ungenerated.forEach((p, i) => {
       setTimeout(() => {
         setParagraphs((prev) =>
-          prev.map((pp) => (pp.id === p.id ? { ...pp, audioStatus: "generating" } : pp))
+          prev.map((pp) => (pp.id === p.id ? { ...pp, audioStatus: 'generating' } : pp))
         )
         setTimeout(() => {
           setParagraphs((prev) =>
             prev.map((pp) =>
               pp.id === p.id
-                ? { ...pp, audioStatus: "generated", audioDuration: 12 + Math.floor(Math.random() * 15) }
+                ? {
+                    ...pp,
+                    audioStatus: 'generated',
+                    audioDuration: 12 + Math.floor(Math.random() * 15),
+                  }
                 : pp
             )
           )
@@ -164,10 +180,10 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
   const handleAddParagraph = () => {
     const newP: ScriptParagraph = {
       id: `p${Date.now()}`,
-      speaker: paragraphs.length % 2 === 0 ? "A" : "B",
-      text: "",
+      speaker: paragraphs.length % 2 === 0 ? 'A' : 'B',
+      text: '',
       emotions: [],
-      audioStatus: "none",
+      audioStatus: 'none',
     }
     setParagraphs((prev) => [...prev, newP])
     setEditingParagraph(newP.id)
@@ -177,7 +193,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
     setParagraphs((prev) =>
       prev.map((p) =>
         p.id === id
-          ? { ...p, text, audioStatus: p.audioStatus === "generated" ? "stale" : p.audioStatus }
+          ? { ...p, text, audioStatus: p.audioStatus === 'generated' ? 'stale' : p.audioStatus }
           : p
       )
     )
@@ -196,23 +212,23 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
     if (!chatInput.trim()) return
     const userMsg: ChatMessage = {
       id: `m${Date.now()}`,
-      role: "user",
+      role: 'user',
       content: chatInput,
     }
     setChatMessages((prev) => [...prev, userMsg])
-    setChatInput("")
+    setChatInput('')
 
     setTimeout(() => {
       const aiMsg: ChatMessage = {
         id: `m${Date.now() + 1}`,
-        role: "assistant",
-        content: chatInput.toLowerCase().includes("emotion")
+        role: 'assistant',
+        content: chatInput.toLowerCase().includes('emotion')
           ? 'I\'ve analyzed the script and recommend adding emotion tags to several key phrases. For paragraph 3, I suggest marking "remarkable" with an Excited emotion at Strong intensity.\n\nFor paragraph 5, the explanation section would benefit from a Serious + Moderate tone.'
-          : chatInput.toLowerCase().includes("optim")
-            ? 'Here\'s a revised version with more engaging language:\n\n"That\'s a brilliant question! The magic happens through continuous data analysis -- the AI monitors everything from test performance to problem-solving speed, then dynamically adjusts each student\'s learning journey."'
-            : "I understand your request. Based on the video content and current script, I can help you refine the dialogue flow, add emotion markers, or adjust the tone. What specific changes would you like?",
-        hasAction: chatInput.toLowerCase().includes("optim"),
-        actionLabel: "Apply Changes",
+          : chatInput.toLowerCase().includes('optim')
+            ? "Here's a revised version with more engaging language:\n\n\"That's a brilliant question! The magic happens through continuous data analysis -- the AI monitors everything from test performance to problem-solving speed, then dynamically adjusts each student's learning journey.\""
+            : 'I understand your request. Based on the video content and current script, I can help you refine the dialogue flow, add emotion markers, or adjust the tone. What specific changes would you like?',
+        hasAction: chatInput.toLowerCase().includes('optim'),
+        actionLabel: 'Apply Changes',
         actionApplied: false,
       }
       setChatMessages((prev) => [...prev, aiMsg])
@@ -220,38 +236,36 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
   }
 
   const handleApplyAction = (msgId: string) => {
-    setChatMessages((prev) =>
-      prev.map((m) => (m.id === msgId ? { ...m, actionApplied: true } : m))
-    )
+    setChatMessages((prev) => prev.map((m) => (m.id === msgId ? { ...m, actionApplied: true } : m)))
   }
 
-  const getStatusIcon = (status: ScriptParagraph["audioStatus"]) => {
+  const getStatusIcon = (status: ScriptParagraph['audioStatus']) => {
     switch (status) {
-      case "generated":
+      case 'generated':
         return <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-      case "generating":
+      case 'generating':
         return <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
-      case "stale":
+      case 'stale':
         return <Clock className="h-3.5 w-3.5 text-amber-500" />
-      case "error":
+      case 'error':
         return <AlertCircle className="h-3.5 w-3.5 text-destructive" />
       default:
         return null
     }
   }
 
-  const getStatusLabel = (status: ScriptParagraph["audioStatus"]) => {
+  const getStatusLabel = (status: ScriptParagraph['audioStatus']) => {
     switch (status) {
-      case "generated":
-        return "Ready"
-      case "generating":
-        return "Generating..."
-      case "stale":
-        return "Modified"
-      case "error":
-        return "Failed"
+      case 'generated':
+        return t('audioStatus.ready')
+      case 'generating':
+        return t('audioStatus.generating')
+      case 'stale':
+        return t('audioStatus.modified')
+      case 'error':
+        return t('audioStatus.failed')
       default:
-        return "Pending"
+        return t('audioStatus.pending')
     }
   }
 
@@ -268,7 +282,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
               className="gap-2 text-muted-foreground hover:text-foreground"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {tc('back')}
             </Button>
             <div className="h-4 w-px bg-border" />
             <PodCraftLogo />
@@ -276,19 +290,30 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
           <div className="flex items-center gap-2">
             {generatingAll && (
               <span className="text-xs text-muted-foreground">
-                Generating {generatingProgress}/{paragraphs.filter((p) => p.audioStatus !== "generated").length + generatingProgress}...
+                {t('generating', {
+                  progress: generatingProgress,
+                  total:
+                    paragraphs.filter((p) => p.audioStatus !== 'generated').length +
+                    generatingProgress,
+                })}
               </span>
             )}
             <Button
               variant="outline"
               size="sm"
               onClick={() =>
-                setParagraphs(INITIAL_PARAGRAPHS.map((p) => ({ ...p, audioStatus: "none", audioDuration: undefined })))
+                setParagraphs(
+                  INITIAL_PARAGRAPHS.map((p) => ({
+                    ...p,
+                    audioStatus: 'none',
+                    audioDuration: undefined,
+                  }))
+                )
               }
               className="gap-1.5 text-xs"
             >
               <RefreshCw className="h-3 w-3" />
-              Regenerate
+              {t('regenerate')}
             </Button>
             <Button
               size="sm"
@@ -297,7 +322,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
               className="gap-1.5 bg-foreground text-xs text-background hover:bg-foreground/90"
             >
               <Zap className="h-3 w-3" />
-              Generate All
+              {t('generateAll')}
             </Button>
             <div className="ml-1 h-4 w-px bg-border" />
             <Button
@@ -306,7 +331,11 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
               onClick={() => setShowChat(!showChat)}
               className="h-8 w-8 text-muted-foreground hover:text-foreground"
             >
-              {showChat ? <PanelRightClose className="h-4 w-4" /> : <PanelRightOpen className="h-4 w-4" />}
+              {showChat ? (
+                <PanelRightClose className="h-4 w-4" />
+              ) : (
+                <PanelRightOpen className="h-4 w-4" />
+              )}
             </Button>
           </div>
         </header>
@@ -322,24 +351,26 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                     key={p.id}
                     className={`group rounded-lg border transition-all ${
                       activeParagraph === p.id
-                        ? "border-foreground/15 bg-muted/50"
-                        : "border-transparent hover:bg-muted/30"
+                        ? 'border-foreground/15 bg-muted/50'
+                        : 'border-transparent hover:bg-muted/30'
                     }`}
                   >
                     {/* Header row */}
-                    <div className="flex items-center gap-2 px-4 pt-3 pb-1">
+                    <div className="flex items-center gap-2 px-4 pb-1 pt-3">
                       <button
                         onClick={() => {
                           setParagraphs((prev) =>
                             prev.map((pp) =>
-                              pp.id === p.id ? { ...pp, speaker: pp.speaker === "A" ? "B" : "A" } : pp
+                              pp.id === p.id
+                                ? { ...pp, speaker: pp.speaker === 'A' ? 'B' : 'A' }
+                                : pp
                             )
                           )
                         }}
                         className={`rounded px-1.5 py-0.5 text-[11px] font-semibold transition-colors ${
-                          p.speaker === "A"
-                            ? "bg-foreground/10 text-foreground"
-                            : "bg-muted text-muted-foreground"
+                          p.speaker === 'A'
+                            ? 'bg-foreground/10 text-foreground'
+                            : 'bg-muted text-muted-foreground'
                         }`}
                       >
                         {p.speaker}
@@ -349,13 +380,15 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                       {getStatusIcon(p.audioStatus) && (
                         <div className="flex items-center gap-1">
                           {getStatusIcon(p.audioStatus)}
-                          <span className="text-[11px] text-muted-foreground">{getStatusLabel(p.audioStatus)}</span>
+                          <span className="text-[11px] text-muted-foreground">
+                            {getStatusLabel(p.audioStatus)}
+                          </span>
                         </div>
                       )}
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-destructive"
+                        className="h-6 w-6 text-muted-foreground opacity-0 hover:text-destructive group-hover:opacity-100"
                         onClick={() => handleDeleteParagraph(p.id)}
                       >
                         <X className="h-3 w-3" />
@@ -384,7 +417,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
 
                     {/* Audio controls */}
                     <div className="flex items-center gap-2 px-4 pb-3">
-                      {p.audioStatus === "generated" ? (
+                      {p.audioStatus === 'generated' ? (
                         <>
                           <Button variant="ghost" size="icon" className="h-6 w-6">
                             <Play className="h-3 w-3" />
@@ -395,30 +428,32 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                             </div>
                           </div>
                           <span className="text-[11px] tabular-nums text-muted-foreground">
-                            0:{String(p.audioDuration || 0).padStart(2, "0")}
+                            0:{String(p.audioDuration || 0).padStart(2, '0')}
                           </span>
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-6 w-6 text-muted-foreground opacity-0 group-hover:opacity-100 hover:text-foreground"
+                                className="h-6 w-6 text-muted-foreground opacity-0 hover:text-foreground group-hover:opacity-100"
                                 onClick={() => handleGenerateSingle(p.id)}
                               >
                                 <RefreshCw className="h-3 w-3" />
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Regenerate audio</TooltipContent>
+                            <TooltipContent>{t('regenerateAudio')}</TooltipContent>
                           </Tooltip>
                         </>
-                      ) : p.audioStatus === "generating" ? (
+                      ) : p.audioStatus === 'generating' ? (
                         <div className="flex items-center gap-2 py-0.5">
                           <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
-                          <span className="text-[11px] text-muted-foreground">Generating...</span>
+                          <span className="text-[11px] text-muted-foreground">
+                            {t('audioStatus.generating')}
+                          </span>
                         </div>
-                      ) : p.audioStatus === "stale" ? (
+                      ) : p.audioStatus === 'stale' ? (
                         <>
-                          <span className="text-[11px] text-amber-600">Content modified</span>
+                          <span className="text-[11px] text-amber-600">{t('contentModified')}</span>
                           <div className="flex-1" />
                           <Button
                             size="sm"
@@ -427,12 +462,12 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                             onClick={() => handleGenerateSingle(p.id)}
                           >
                             <RefreshCw className="h-3 w-3" />
-                            Regenerate
+                            {t('regenerate')}
                           </Button>
                         </>
                       ) : (
                         <>
-                          <span className="text-[11px] text-muted-foreground">No audio</span>
+                          <span className="text-[11px] text-muted-foreground">{t('noAudio')}</span>
                           <div className="flex-1" />
                           <Button
                             size="sm"
@@ -440,7 +475,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                             onClick={() => handleGenerateSingle(p.id)}
                           >
                             <Play className="h-3 w-3" />
-                            Generate
+                            {t('generate')}
                           </Button>
                         </>
                       )}
@@ -454,7 +489,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                   className="flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-border py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Plus className="h-3.5 w-3.5" />
-                  Add Segment
+                  {t('addSegment')}
                 </button>
               </div>
             </ScrollArea>
@@ -466,7 +501,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                 size="icon"
                 className="h-8 w-8"
                 onClick={handleTogglePlay}
-                disabled={!paragraphs.some((p) => p.audioStatus === "generated")}
+                disabled={!paragraphs.some((p) => p.audioStatus === 'generated')}
               >
                 {playingAll ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </Button>
@@ -487,7 +522,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                 disabled={!allGenerated}
                 className="gap-1.5 bg-foreground text-xs text-background hover:bg-foreground/90"
               >
-                Export
+                {t('export')}
                 <ChevronRight className="h-3 w-3" />
               </Button>
             </div>
@@ -499,7 +534,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
               <div className="flex items-center justify-between px-4 py-3">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">AI Assistant</span>
+                  <span className="text-sm font-medium text-foreground">{t('aiAssistant')}</span>
                 </div>
                 <Button
                   variant="ghost"
@@ -518,17 +553,17 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                   {chatMessages.map((msg) => (
                     <div
                       key={msg.id}
-                      className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}
+                      className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                     >
                       <div
                         className={`max-w-[88%] rounded-lg px-3 py-2 text-sm leading-relaxed ${
-                          msg.role === "user"
-                            ? "bg-foreground text-background"
-                            : "bg-muted text-foreground"
+                          msg.role === 'user'
+                            ? 'bg-foreground text-background'
+                            : 'bg-muted text-foreground'
                         }`}
                       >
-                        {msg.content.split("\n").map((line, i) => (
-                          <p key={i} className={i > 0 ? "mt-1" : ""}>
+                        {msg.content.split('\n').map((line, i) => (
+                          <p key={i} className={i > 0 ? 'mt-1' : ''}>
                             {line}
                           </p>
                         ))}
@@ -545,7 +580,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                         {msg.actionApplied && (
                           <div className="mt-1.5 flex items-center gap-1 text-[11px] text-emerald-600">
                             <CheckCircle2 className="h-3 w-3" />
-                            Applied
+                            {t('applied')}
                           </div>
                         )}
                       </div>
@@ -562,13 +597,13 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
+                      if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault()
                         handleSendChat()
                       }
                     }}
-                    placeholder="Ask anything..."
-                    className="min-h-[36px] max-h-[100px] resize-none border-border bg-muted text-sm placeholder:text-muted-foreground"
+                    placeholder={t('askAnything')}
+                    className="max-h-[100px] min-h-[36px] resize-none border-border bg-muted text-sm placeholder:text-muted-foreground"
                     rows={1}
                   />
                   <Button
@@ -589,10 +624,10 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
   )
 }
 
-function renderTextWithEmotions(text: string, emotions: ScriptParagraph["emotions"]) {
+function renderTextWithEmotions(text: string, emotions: ScriptParagraph['emotions']) {
   if (!emotions.length) return text
 
-  const parts: JSX.Element[] = []
+  const parts: React.JSX.Element[] = []
   let lastIndex = 0
   const sorted = [...emotions].sort((a, b) => a.start - b.start)
 
@@ -605,16 +640,23 @@ function renderTextWithEmotions(text: string, emotions: ScriptParagraph["emotion
     }
 
     const opacity =
-      em.intensity === "slight" ? 0.2
-        : em.intensity === "moderate" ? 0.35
-          : em.intensity === "strong" ? 0.5
+      em.intensity === 'slight'
+        ? 0.2
+        : em.intensity === 'moderate'
+          ? 0.35
+          : em.intensity === 'strong'
+            ? 0.5
             : 0.65
 
     parts.push(
       <span
         key={`e${i}`}
-        className="rounded px-0.5 cursor-help"
-        style={{ backgroundColor: `${EMOTION_COLORS[em.emotion]}${Math.round(opacity * 255).toString(16).padStart(2, "0")}` }}
+        className="cursor-help rounded px-0.5"
+        style={{
+          backgroundColor: `${EMOTION_COLORS[em.emotion]}${Math.round(opacity * 255)
+            .toString(16)
+            .padStart(2, '0')}`,
+        }}
         title={`${EMOTION_LABELS[em.emotion]} - ${INTENSITY_LABELS[em.intensity]}`}
       >
         {text.slice(start, end)}
@@ -633,5 +675,5 @@ function renderTextWithEmotions(text: string, emotions: ScriptParagraph["emotion
 function formatTime(seconds: number) {
   const m = Math.floor(seconds / 60)
   const s = Math.floor(seconds % 60)
-  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { useSetAtom, useAtomValue } from 'jotai'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
@@ -29,6 +30,8 @@ interface PreviewPageProps {
 }
 
 export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: PreviewPageProps) {
+  const t = useTranslations('preview')
+  const tc = useTranslations('common')
   const setVideoLoading = useSetAtom(videoLoadingAtom)
   const config = useAtomValue(previewConfigAtom)
 
@@ -48,7 +51,7 @@ export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: Preview
           className="gap-2 text-muted-foreground hover:text-foreground"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back
+          {tc('back')}
         </Button>
         <PodCraftLogo />
       </header>
@@ -66,7 +69,7 @@ export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: Preview
         {/* Right: Configuration + Generate */}
         <div className="flex flex-col gap-8">
           <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Podcast Configuration
+            {t('podcastConfig')}
           </h3>
           <StyleSelector />
           <SpeakerLanguageConfig />
@@ -77,7 +80,7 @@ export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: Preview
               onClick={() => onGenerate(config)}
               className="w-full gap-2 rounded-lg bg-foreground px-8 py-2.5 text-sm text-background hover:bg-foreground/90"
             >
-              Generate Podcast Script
+              {t('generateScript')}
               <ArrowRight className="h-4 w-4" />
             </Button>
           </div>

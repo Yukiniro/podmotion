@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAtom, useAtomValue } from 'jotai'
 import { Play, Volume2 } from 'lucide-react'
 
@@ -16,6 +17,7 @@ import { VOICE_OPTIONS } from '@/lib/store'
 import { speakersAtom, voiceAAtom, voiceBAtom } from '@/lib/atoms/preview-atoms'
 
 export function VoiceSelector() {
+  const t = useTranslations('preview')
   const speakers = useAtomValue(speakersAtom)
   const [voiceA, setVoiceA] = useAtom(voiceAAtom)
   const [voiceB, setVoiceB] = useAtom(voiceBAtom)
@@ -28,7 +30,7 @@ export function VoiceSelector() {
 
   return (
     <div className="flex flex-col gap-4">
-      <label className="text-sm font-medium text-foreground">Voice</label>
+      <label className="text-sm font-medium text-foreground">{t('voice')}</label>
 
       <div className="flex items-center gap-3">
         <span className="flex h-7 w-7 items-center justify-center rounded-md bg-foreground text-xs font-bold text-background">
@@ -41,7 +43,7 @@ export function VoiceSelector() {
           <SelectContent>
             {VOICE_OPTIONS.map((v) => (
               <SelectItem key={v.id} value={v.id}>
-                {v.name} ({v.gender === 'male' ? 'M' : 'F'})
+                {v.name} ({v.gender === 'male' ? t('male') : t('female')})
               </SelectItem>
             ))}
           </SelectContent>
@@ -57,7 +59,7 @@ export function VoiceSelector() {
           ) : (
             <Play className="h-4 w-4" />
           )}
-          Preview
+          {t('voicePreview')}
         </Button>
       </div>
 
@@ -73,7 +75,7 @@ export function VoiceSelector() {
             <SelectContent>
               {VOICE_OPTIONS.map((v) => (
                 <SelectItem key={v.id} value={v.id}>
-                  {v.name} ({v.gender === 'male' ? 'M' : 'F'})
+                  {v.name} ({v.gender === 'male' ? t('male') : t('female')})
                 </SelectItem>
               ))}
             </SelectContent>
@@ -89,7 +91,7 @@ export function VoiceSelector() {
             ) : (
               <Play className="h-4 w-4" />
             )}
-            Preview
+            {t('voicePreview')}
           </Button>
         </div>
       ) : null}

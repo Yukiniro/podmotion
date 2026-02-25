@@ -1,6 +1,7 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
+import { useTranslations } from 'next-intl'
 import { Check, Play } from 'lucide-react'
 
 import { Skeleton } from '@/components/ui/skeleton'
@@ -13,6 +14,7 @@ const MOCK_VIDEO = {
 }
 
 export function VideoPreview() {
+  const t = useTranslations('preview')
   const loading = useAtomValue(videoLoadingAtom)
 
   if (loading) {
@@ -37,7 +39,9 @@ export function VideoPreview() {
         <h2 className="text-base font-semibold leading-snug text-foreground">{MOCK_VIDEO.title}</h2>
         <p className="text-sm text-muted-foreground">{MOCK_VIDEO.duration}</p>
         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <span>Subtitles: {MOCK_VIDEO.subtitle}</span>
+          <span>
+            {t('subtitles')}: {MOCK_VIDEO.subtitle}
+          </span>
           <Check className="h-3.5 w-3.5 text-emerald-500" />
         </div>
       </div>
