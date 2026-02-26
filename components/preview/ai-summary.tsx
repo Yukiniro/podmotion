@@ -13,6 +13,14 @@ import {
   transcriptStatusAtom,
   videoLoadingAtom,
 } from '@/lib/atoms/preview-atoms'
+import { storage } from '@/lib/storage'
+
+interface CachedTranscript {
+  content: string
+  lang: string
+  availableLangs: string[]
+  cachedAt: number
+}
 
 interface AISummaryProps {
   videoUrl: string
@@ -76,12 +84,25 @@ export function AISummary({ videoUrl }: AISummaryProps) {
     if (videoLoading || !videoUrl || transcriptStatus !== 'idle') return
 
     const controller = new AbortController()
-    setTranscriptStatus('loading')
+    const cacheKey = `transcript:${videoUrl}`
+    let cancelled = false
 
-    fetch(`/api/transcript?url=${encodeURIComponent(videoUrl)}`, {
-      signal: controller.signal,
-    })
-      .then(async (res) => {
+    async function loadTranscript() {
+      setTranscriptStatus('loading')
+
+      const cached = await storage.getItem<CachedTranscript>(cacheKey)
+      if (cached?.content) {
+        if (cancelled) return
+        setTranscript(cached.content)
+        setTranscriptStatus('done')
+        fetchSummary(cached.content)
+        return
+      }
+
+      try {
+        const res = await fetch(`/api/transcript?url=${encodeURIComponent(videoUrl)}`, {
+          signal: controller.signal,
+        })
         if (!res.ok) throw new Error('Transcript fetch failed')
         const data = await res.json()
 
@@ -92,15 +113,28 @@ export function AISummary({ videoUrl }: AISummaryProps) {
 
         setTranscript(data.content)
         setTranscriptStatus('done')
+
+        await storage.setItem<CachedTranscript>(cacheKey, {
+          content: data.content,
+          lang: data.lang,
+          availableLangs: data.availableLangs,
+          cachedAt: Date.now(),
+        })
+
         fetchSummary(data.content)
-      })
-      .catch((error) => {
+      } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') return
         console.error('[transcript] Error:', error)
         setTranscriptStatus('error')
-      })
+      }
+    }
 
-    return () => controller.abort()
+    loadTranscript()
+
+    return () => {
+      cancelled = true
+      controller.abort()
+    }
   }, [videoLoading, videoUrl, transcriptStatus, setTranscript, setTranscriptStatus, fetchSummary])
 
   useEffect(() => {
