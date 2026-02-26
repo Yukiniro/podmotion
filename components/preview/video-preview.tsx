@@ -1,10 +1,11 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
-import { Check, Play } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Skeleton } from '@/components/ui/skeleton'
+import { YouTubePlayer } from '@/components/ui/youtube-video-player'
 import { videoLoadingAtom } from '@/lib/atoms/preview-atoms'
 
 const MOCK_VIDEO = {
@@ -13,16 +14,19 @@ const MOCK_VIDEO = {
   subtitle: 'English (auto-generated)',
 }
 
-export function VideoPreview() {
+interface VideoPreviewProps {
+  videoUrl: string
+}
+
+export function VideoPreview({ videoUrl }: VideoPreviewProps) {
   const t = useTranslations('preview')
   const loading = useAtomValue(videoLoadingAtom)
 
   if (loading) {
     return (
-      <div className="flex gap-4">
-        <Skeleton className="h-20 w-36 shrink-0 rounded-lg" />
-        <div className="flex flex-1 flex-col gap-2">
-          <Skeleton className="h-5 w-3/4" />
+      <div className="flex flex-col gap-4">
+        <Skeleton className="aspect-video w-full rounded-lg" />
+        <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-1/4" />
           <Skeleton className="h-4 w-1/3" />
         </div>
@@ -31,12 +35,13 @@ export function VideoPreview() {
   }
 
   return (
-    <div className="flex gap-4">
-      <div className="flex h-20 w-36 shrink-0 items-center justify-center rounded-lg bg-muted">
-        <Play className="h-6 w-6 text-muted-foreground" />
-      </div>
+    <div className="flex flex-col gap-4">
+      <YouTubePlayer
+        videoId={videoUrl}
+        title={MOCK_VIDEO.title}
+        containerClassName="rounded-lg overflow-hidden"
+      />
       <div className="flex flex-col gap-1">
-        <h2 className="text-base font-semibold leading-snug text-foreground">{MOCK_VIDEO.title}</h2>
         <p className="text-sm text-muted-foreground">{MOCK_VIDEO.duration}</p>
         <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
           <span>

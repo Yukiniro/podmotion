@@ -29,7 +29,7 @@ interface PreviewPageProps {
   onGenerate: (config: PreviewConfig) => void
 }
 
-export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: PreviewPageProps) {
+export function PreviewPage({ videoUrl, onBack, onGenerate }: PreviewPageProps) {
   const t = useTranslations('preview')
   const tc = useTranslations('common')
   const setVideoLoading = useSetAtom(videoLoadingAtom)
@@ -60,7 +60,7 @@ export function PreviewPage({ videoUrl: _videoUrl, onBack, onGenerate }: Preview
         {/* Left: Video Preview + AI Summary */}
         <div className="flex flex-col gap-8">
           <section>
-            <VideoPreview />
+            <VideoPreview videoUrl={videoUrl} />
           </section>
           <div className="h-px bg-border" />
           <AISummary />
