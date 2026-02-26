@@ -37,6 +37,8 @@ export function AISummary({ videoUrl }: AISummaryProps) {
   const [summaryStatus, setSummaryStatus] = useAtom(summaryStatusAtom)
 
   const abortRef = useRef<AbortController | null>(null)
+  const transcriptStatusRef = useRef(transcriptStatus)
+  transcriptStatusRef.current = transcriptStatus
 
   const fetchSummary = useCallback(
     async (transcriptText: string) => {
@@ -81,7 +83,7 @@ export function AISummary({ videoUrl }: AISummaryProps) {
   )
 
   useEffect(() => {
-    if (videoLoading || !videoUrl || transcriptStatus !== 'idle') return
+    if (videoLoading || !videoUrl || transcriptStatusRef.current !== 'idle') return
 
     const controller = new AbortController()
     const cacheKey = `transcript:${videoUrl}`
@@ -135,7 +137,7 @@ export function AISummary({ videoUrl }: AISummaryProps) {
       cancelled = true
       controller.abort()
     }
-  }, [videoLoading, videoUrl, transcriptStatus, setTranscript, setTranscriptStatus, fetchSummary])
+  }, [videoLoading, videoUrl, setTranscript, setTranscriptStatus, fetchSummary])
 
   useEffect(() => {
     return () => abortRef.current?.abort()
