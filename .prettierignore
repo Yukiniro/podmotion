@@ -51,3 +51,7 @@ bun.lockb
 *.min.css
 coverage
 .nyc_output
+
+.agents
+.claude
+.cursor
