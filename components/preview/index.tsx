@@ -63,7 +63,7 @@ export function PreviewPage({ videoUrl, onBack, onGenerate }: PreviewPageProps) 
             <VideoPreview videoUrl={videoUrl} />
           </section>
           <div className="h-px bg-border" />
-          <AISummary />
+          <AISummary videoUrl={videoUrl} />
         </div>
 
         {/* Right: Configuration + Generate */}

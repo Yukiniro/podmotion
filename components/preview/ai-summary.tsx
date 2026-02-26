@@ -1,50 +1,135 @@
 'use client'
 
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { Skeleton } from '@/components/ui/skeleton'
-import { videoLoadingAtom } from '@/lib/atoms/preview-atoms'
+import {
+  languageAtom,
+  summaryAtom,
+  summaryStatusAtom,
+  transcriptAtom,
+  transcriptStatusAtom,
+  videoLoadingAtom,
+} from '@/lib/atoms/preview-atoms'
 
-const MOCK_SUMMARY = `This video explores the latest applications of artificial intelligence in the education sector, covering three core areas: personalized learning paths, intelligent assessment systems, and virtual teaching assistants. Through concrete case studies, the presenter demonstrates how AI can enhance teaching efficiency while also examining the ethical implications and privacy concerns that arise from such technological integration.`
+interface AISummaryProps {
+  videoUrl: string
+}
 
-export function AISummary() {
+export function AISummary({ videoUrl }: AISummaryProps) {
   const t = useTranslations('preview')
-  const loading = useAtomValue(videoLoadingAtom)
-  const [summaryText, setSummaryText] = useState('')
-  const [summaryLoading, setSummaryLoading] = useState(true)
+  const videoLoading = useAtomValue(videoLoadingAtom)
+  const lang = useAtomValue(languageAtom)
+
+  const [_transcript, setTranscript] = useAtom(transcriptAtom)
+  const [transcriptStatus, setTranscriptStatus] = useAtom(transcriptStatusAtom)
+  const [summary, setSummary] = useAtom(summaryAtom)
+  const [summaryStatus, setSummaryStatus] = useAtom(summaryStatusAtom)
+
+  const abortRef = useRef<AbortController | null>(null)
+
+  const fetchSummary = useCallback(
+    async (transcriptText: string) => {
+      setSummaryStatus('loading')
+      setSummary('')
+
+      abortRef.current?.abort()
+      const controller = new AbortController()
+      abortRef.current = controller
+
+      try {
+        const res = await fetch('/api/summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ transcript: transcriptText, lang }),
+          signal: controller.signal,
+        })
+
+        if (!res.ok) throw new Error('Summary request failed')
+        if (!res.body) throw new Error('No response body')
+
+        setSummaryStatus('streaming')
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let text = ''
+
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          text += decoder.decode(value, { stream: true })
+          setSummary(text)
+        }
+
+        setSummaryStatus('done')
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        console.error('[summary] Error:', error)
+        setSummaryStatus('error')
+      }
+    },
+    [lang, setSummary, setSummaryStatus]
+  )
 
   useEffect(() => {
-    if (loading) return
-    let i = 0
-    const interval = setInterval(() => {
-      if (i < MOCK_SUMMARY.length) {
-        setSummaryText(MOCK_SUMMARY.slice(0, i + 3))
-        i += 3
-      } else {
-        setSummaryLoading(false)
-        clearInterval(interval)
-      }
-    }, 15)
-    return () => clearInterval(interval)
-  }, [loading])
+    if (videoLoading || !videoUrl || transcriptStatus !== 'idle') return
+
+    const controller = new AbortController()
+    setTranscriptStatus('loading')
+
+    fetch(`/api/transcript?url=${encodeURIComponent(videoUrl)}`, {
+      signal: controller.signal,
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('Transcript fetch failed')
+        const data = await res.json()
+
+        if (data.jobId) {
+          setTranscriptStatus('loading')
+          return
+        }
+
+        setTranscript(data.content)
+        setTranscriptStatus('done')
+        fetchSummary(data.content)
+      })
+      .catch((error) => {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        console.error('[transcript] Error:', error)
+        setTranscriptStatus('error')
+      })
+
+    return () => controller.abort()
+  }, [videoLoading, videoUrl, transcriptStatus, setTranscript, setTranscriptStatus, fetchSummary])
+
+  useEffect(() => {
+    return () => abortRef.current?.abort()
+  }, [])
+
+  const isLoading = videoLoading || transcriptStatus === 'loading' || summaryStatus === 'loading'
+  const isStreaming = summaryStatus === 'streaming'
+  const hasError = transcriptStatus === 'error' || summaryStatus === 'error'
 
   return (
     <section>
       <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
         {t('contentSummary')}
       </h3>
-      {loading ? (
+      {isLoading ? (
         <div className="flex flex-col gap-2">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-3/4" />
         </div>
+      ) : hasError ? (
+        <p className="text-sm text-destructive">
+          {t('summaryError', { defaultMessage: 'Failed to generate summary. Please try again.' })}
+        </p>
       ) : (
         <p className="text-sm leading-relaxed text-foreground/80">
-          {summaryText}
-          {summaryLoading ? (
+          {summary}
+          {isStreaming ? (
             <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-foreground/40" />
           ) : null}
         </p>

@@ -11,5 +11,5 @@ export default antfu({
     '.vscode/**/*',
     'components/ai-elements/**/*',
     'components/ui/**/*',
-  ]
+  ],
 })

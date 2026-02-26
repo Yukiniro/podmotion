@@ -1,11 +1,11 @@
 'use client'
 
-import type {PreviewConfig} from '@/components/preview-page';
+import type { PreviewConfig } from '@/components/preview-page'
 import type { AppPage } from '@/lib/store'
 import { useState } from 'react'
 import { ExportPage } from '@/components/export-page'
 import { HomePage } from '@/components/home-page'
-import {  PreviewPage } from '@/components/preview-page'
+import { PreviewPage } from '@/components/preview-page'
 import { WorkspacePage } from '@/components/workspace-page'
 
 export default function Page() {

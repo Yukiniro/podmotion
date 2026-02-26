@@ -29,3 +29,13 @@ export const previewConfigAtom = atom((get) => ({
   voiceA: get(voiceAAtom),
   voiceB: get(voiceBAtom),
 }))
+
+export type TranscriptStatus = 'idle' | 'loading' | 'done' | 'error'
+export type SummaryStatus = 'idle' | 'loading' | 'streaming' | 'done' | 'error'
+
+export const transcriptAtom = atom<string>('')
+export const transcriptLangAtom = atom<string>('')
+export const transcriptStatusAtom = atom<TranscriptStatus>('idle')
+
+export const summaryAtom = atom<string>('')
+export const summaryStatusAtom = atom<SummaryStatus>('idle')
