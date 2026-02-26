@@ -1,6 +1,6 @@
-import { atom } from 'jotai'
-
 import type { PodcastStyle } from '@/lib/store'
+
+import { atom } from 'jotai'
 import { STYLE_OPTIONS } from '@/lib/store'
 
 export const videoLoadingAtom = atom(true)

@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
-import { HomePage } from '@/components/home-page'
-import { PreviewPage, type PreviewConfig } from '@/components/preview-page'
-import { WorkspacePage } from '@/components/workspace-page'
-import { ExportPage } from '@/components/export-page'
+import type {PreviewConfig} from '@/components/preview-page';
 import type { AppPage } from '@/lib/store'
+import { useState } from 'react'
+import { ExportPage } from '@/components/export-page'
+import { HomePage } from '@/components/home-page'
+import {  PreviewPage } from '@/components/preview-page'
+import { WorkspacePage } from '@/components/workspace-page'
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')

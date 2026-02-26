@@ -3,9 +3,9 @@
 import { useAtom } from 'jotai'
 import { useTranslations } from 'next-intl'
 
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
-import { speakersAtom, languageAtom } from '@/lib/atoms/preview-atoms'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { languageAtom, speakersAtom } from '@/lib/atoms/preview-atoms'
 
 export function SpeakerLanguageConfig() {
   const t = useTranslations('preview')

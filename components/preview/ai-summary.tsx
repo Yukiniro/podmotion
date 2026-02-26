@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useTranslations } from 'next-intl'
 import { useAtomValue } from 'jotai'
+import { useTranslations } from 'next-intl'
+import { useEffect, useState } from 'react'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { videoLoadingAtom } from '@/lib/atoms/preview-atoms'

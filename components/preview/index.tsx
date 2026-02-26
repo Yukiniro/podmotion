@@ -1,18 +1,18 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useTranslations } from 'next-intl'
-import { useSetAtom, useAtomValue } from 'jotai'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
-import { PodCraftLogo } from '@/components/podcraft-logo'
 import type { PodcastStyle } from '@/lib/store'
-import { videoLoadingAtom, previewConfigAtom } from '@/lib/atoms/preview-atoms'
-import { VideoPreview } from './video-preview'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+
+import { useEffect } from 'react'
+import { PodCraftLogo } from '@/components/podcraft-logo'
+import { Button } from '@/components/ui/button'
+import { previewConfigAtom, videoLoadingAtom } from '@/lib/atoms/preview-atoms'
 import { AISummary } from './ai-summary'
-import { StyleSelector } from './style-selector'
 import { SpeakerLanguageConfig } from './speaker-language-config'
+import { StyleSelector } from './style-selector'
+import { VideoPreview } from './video-preview'
 import { VoiceSelector } from './voice-selector'
 
 export interface PreviewConfig {

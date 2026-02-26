@@ -1,4 +1,4 @@
-import { expect, afterEach } from 'vitest'
+import { afterEach } from 'vitest'
 
 // 每个测试后清理
 afterEach(() => {
@@ -21,7 +21,7 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
+globalThis.IntersectionObserver = class IntersectionObserver {
   constructor() {}
   disconnect() {}
   observe() {}

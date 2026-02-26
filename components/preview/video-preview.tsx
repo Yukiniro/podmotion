@@ -1,8 +1,8 @@
 'use client'
 
 import { useAtomValue } from 'jotai'
-import { useTranslations } from 'next-intl'
 import { Check, Play } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 
 import { Skeleton } from '@/components/ui/skeleton'
 import { videoLoadingAtom } from '@/lib/atoms/preview-atoms'

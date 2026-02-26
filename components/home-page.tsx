@@ -1,18 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import { ArrowRight, Headphones, MessageSquare, Sparkles, Wand2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { ArrowRight, Sparkles, Headphones, Wand2, MessageSquare } from 'lucide-react'
+import { useState } from 'react'
+import { PodCraftLogo } from '@/components/podcraft-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { PodCraftLogo } from '@/components/podcraft-logo'
 
 interface HomePageProps {
   onNavigate: (url: string) => void
 }
 
 function isValidYoutubeUrl(url: string) {
-  const pattern = /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/)|youtu\.be\/)/
+  const pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)/
   return pattern.test(url.trim())
 }
 

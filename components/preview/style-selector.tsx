@@ -3,8 +3,8 @@
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useTranslations } from 'next-intl'
 
+import { setStyleAtom, styleAtom } from '@/lib/atoms/preview-atoms'
 import { STYLE_OPTIONS } from '@/lib/store'
-import { styleAtom, setStyleAtom } from '@/lib/atoms/preview-atoms'
 
 export function StyleSelector() {
   const t = useTranslations('preview')

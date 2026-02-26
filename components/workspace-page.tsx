@@ -1,37 +1,33 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useTranslations } from 'next-intl'
+import type { ChatMessage, ScriptParagraph } from '@/lib/store'
 import {
-  ArrowLeft,
-  Play,
-  Pause,
-  RefreshCw,
-  Plus,
-  X,
-  Send,
-  MessageSquare,
-  Zap,
-  ChevronRight,
-  CheckCircle2,
-  Clock,
   AlertCircle,
+  ArrowLeft,
+  CheckCircle2,
+  ChevronRight,
+  Clock,
   Loader2,
-  PanelRightOpen,
+  MessageSquare,
   PanelRightClose,
+  PanelRightOpen,
+  Pause,
+  Play,
+  Plus,
+  RefreshCw,
+  Send,
+  X,
+  Zap,
 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import * as React from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { PodCraftLogo } from '@/components/podcraft-logo'
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { PodCraftLogo } from '@/components/podcraft-logo'
-import {
-  EMOTION_COLORS,
-  EMOTION_LABELS,
-  INTENSITY_LABELS,
-  type ScriptParagraph,
-  type ChatMessage,
-} from '@/lib/store'
+import { EMOTION_COLORS, EMOTION_LABELS, INTENSITY_LABELS } from '@/lib/store'
 
 interface WorkspacePageProps {
   onBack: () => void
@@ -95,7 +91,7 @@ export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
   const [chatInput, setChatInput] = useState('')
   const [showChat, setShowChat] = useState(true)
   const [playingAll, setPlayingAll] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
+  const [currentTime] = useState(0)
   const [activeParagraph, setActiveParagraph] = useState<string | null>(null)
   const [editingParagraph, setEditingParagraph] = useState<string | null>(null)
   const [generatingAll, setGeneratingAll] = useState(false)

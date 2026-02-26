@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { useTranslations } from 'next-intl'
 import { useAtom, useAtomValue } from 'jotai'
 import { Play, Volume2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -13,8 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { VOICE_OPTIONS } from '@/lib/store'
 import { speakersAtom, voiceAAtom, voiceBAtom } from '@/lib/atoms/preview-atoms'
+import { VOICE_OPTIONS } from '@/lib/store'
 
 export function VoiceSelector() {
   const t = useTranslations('preview')
