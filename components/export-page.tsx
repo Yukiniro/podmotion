@@ -1,5 +1,6 @@
 'use client'
 
+import { useAtom, useSetAtom } from 'jotai'
 import {
   ArrowLeft,
   Download,
@@ -11,12 +12,16 @@ import {
   RefreshCw,
 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
 import { PodCraftLogo } from '@/components/podcraft-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
+import { useExportPlayer } from '@/hooks/use-export-player'
+import { coverLoadingAtom, exportDescriptionAtom, exportTitleAtom } from '@/lib/atoms/export-atoms'
+import { formatTime } from '@/lib/utils/format'
 
 interface ExportPageProps {
   onBack: () => void
@@ -25,43 +30,26 @@ interface ExportPageProps {
 export function ExportPage({ onBack }: ExportPageProps) {
   const t = useTranslations('export')
   const tc = useTranslations('common')
-  const [coverLoading, setCoverLoading] = useState(true)
-  const [title, setTitle] = useState('AI in Education -- A Revolution in Personalized Learning')
-  const [description, setDescription] = useState(
-    'This episode explores how artificial intelligence is transforming the education landscape, from personalized learning paths to intelligent assessment systems.'
-  )
-  const [playing, setPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const totalDuration = 750
+  const [coverLoading, setCoverLoading] = useAtom(coverLoadingAtom)
+  const [title, setTitle] = useAtom(exportTitleAtom)
+  const [description, setDescription] = useAtom(exportDescriptionAtom)
+  const { playing, currentTime, totalDuration, togglePlay } = useExportPlayer()
+
+  const setInitialTitle = useSetAtom(exportTitleAtom)
+  const setInitialDescription = useSetAtom(exportDescriptionAtom)
 
   useEffect(() => {
+    setInitialTitle('AI in Education -- A Revolution in Personalized Learning')
+    setInitialDescription(
+      'This episode explores how artificial intelligence is transforming the education landscape, from personalized learning paths to intelligent assessment systems.'
+    )
+    setCoverLoading(true)
     const timer = setTimeout(() => setCoverLoading(false), 2500)
     return () => clearTimeout(timer)
-  }, [])
-
-  useEffect(() => {
-    if (!playing) return
-    const interval = setInterval(() => {
-      setCurrentTime((prev) => {
-        if (prev >= totalDuration) {
-          setPlaying(false)
-          return 0
-        }
-        return prev + 1
-      })
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [playing, totalDuration])
-
-  const formatTime = (s: number) => {
-    const m = Math.floor(s / 60)
-    const sec = Math.floor(s % 60)
-    return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`
-  }
+  }, [setInitialTitle, setInitialDescription, setCoverLoading])
 
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Header */}
       <header className="flex items-center justify-between border-b border-border px-8 py-4">
         <Button
           variant="ghost"
@@ -76,16 +64,13 @@ export function ExportPage({ onBack }: ExportPageProps) {
       </header>
 
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-6 py-14">
-        {/* Title */}
         <div className="animate-fade-in-up mb-10 flex flex-col items-center gap-1">
           <h1 className="text-xl font-semibold text-foreground">{t('title')}</h1>
           <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
         </div>
 
-        {/* Info */}
         <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.1s' }}>
           <div className="flex gap-5">
-            {/* Cover */}
             <div className="flex shrink-0 flex-col gap-2">
               {coverLoading ? (
                 <Skeleton className="h-36 w-36 rounded-lg" />
@@ -108,7 +93,6 @@ export function ExportPage({ onBack }: ExportPageProps) {
               </Button>
             </div>
 
-            {/* Fields */}
             <div className="flex flex-1 flex-col gap-3">
               <div className="flex flex-col gap-1">
                 <label className="text-xs text-muted-foreground">{t('fieldTitle')}</label>
@@ -133,18 +117,12 @@ export function ExportPage({ onBack }: ExportPageProps) {
 
         <div className="my-8 h-px w-full bg-border" />
 
-        {/* Player */}
         <div className="animate-fade-in-up w-full" style={{ animationDelay: '0.2s' }}>
           <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {t('preview')}
           </h3>
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 shrink-0"
-              onClick={() => setPlaying(!playing)}
-            >
+            <Button variant="ghost" size="icon" className="h-9 w-9 shrink-0" onClick={togglePlay}>
               {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
             </Button>
             <div className="flex-1">
@@ -161,7 +139,6 @@ export function ExportPage({ onBack }: ExportPageProps) {
           </div>
         </div>
 
-        {/* Download */}
         <div
           className="animate-fade-in-up mt-10 flex flex-col items-center gap-3"
           style={{ animationDelay: '0.3s' }}

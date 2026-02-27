@@ -1,15 +1,16 @@
 'use client'
 
-import { useAtomValue, useSetAtom } from 'jotai'
+import { useAtomValue } from 'jotai'
 import { useTranslations } from 'next-intl'
 
-import { setStyleAtom, styleAtom } from '@/lib/atoms/preview-atoms'
+import { useSetStyle } from '@/hooks/use-style-config'
+import { styleAtom } from '@/lib/atoms/preview-atoms'
 import { STYLE_OPTIONS } from '@/lib/store'
 
 export function StyleSelector() {
   const t = useTranslations('preview')
   const style = useAtomValue(styleAtom)
-  const changeStyle = useSetAtom(setStyleAtom)
+  const changeStyle = useSetStyle()
 
   return (
     <div className="flex flex-col gap-3">

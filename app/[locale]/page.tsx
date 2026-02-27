@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { ExportPage } from '@/components/export-page'
 import { HomePage } from '@/components/home-page'
 import { PreviewPage } from '@/components/preview-page'
-import { WorkspacePage } from '@/components/workspace-page'
+import { WorkspacePage } from '@/components/workspace'
 
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')

@@ -16,12 +16,6 @@ export const styleDescriptionAtom = atom((get) => {
   return STYLE_OPTIONS.find((s) => s.id === style)?.description ?? ''
 })
 
-export const setStyleAtom = atom(null, (_get, set, newStyle: PodcastStyle) => {
-  set(styleAtom, newStyle)
-  const opt = STYLE_OPTIONS.find((s) => s.id === newStyle)
-  if (opt) set(speakersAtom, opt.defaultSpeakers)
-})
-
 export const previewConfigAtom = atom((get) => ({
   style: get(styleAtom),
   speakers: get(speakersAtom),

@@ -6,14 +6,10 @@ import { useState } from 'react'
 import { PodCraftLogo } from '@/components/podcraft-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { isValidYoutubeUrl } from '@/lib/utils/validators'
 
 interface HomePageProps {
   onNavigate: (url: string) => void
-}
-
-function isValidYoutubeUrl(url: string) {
-  const pattern = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)/
-  return pattern.test(url.trim())
 }
 
 export function HomePage({ onNavigate }: HomePageProps) {

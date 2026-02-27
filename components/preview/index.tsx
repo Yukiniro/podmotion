@@ -1,14 +1,17 @@
 'use client'
 
 import type { PodcastStyle } from '@/lib/store'
-import { useAtomValue, useSetAtom } from 'jotai'
+
+import { useAtomValue } from 'jotai'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
-import { useEffect } from 'react'
 import { PodCraftLogo } from '@/components/podcraft-logo'
 import { Button } from '@/components/ui/button'
-import { previewConfigAtom, videoLoadingAtom } from '@/lib/atoms/preview-atoms'
+import { useSummary } from '@/hooks/use-summary'
+import { useTranscript } from '@/hooks/use-transcript'
+import { useVideoLoading } from '@/hooks/use-video-loading'
+import { languageAtom, previewConfigAtom } from '@/lib/atoms/preview-atoms'
 import { AISummary } from './ai-summary'
 import { SpeakerLanguageConfig } from './speaker-language-config'
 import { StyleSelector } from './style-selector'
@@ -32,14 +35,13 @@ interface PreviewPageProps {
 export function PreviewPage({ videoUrl, onBack, onGenerate }: PreviewPageProps) {
   const t = useTranslations('preview')
   const tc = useTranslations('common')
-  const setVideoLoading = useSetAtom(videoLoadingAtom)
   const config = useAtomValue(previewConfigAtom)
+  const lang = useAtomValue(languageAtom)
 
-  useEffect(() => {
-    setVideoLoading(true)
-    const timer = setTimeout(() => setVideoLoading(false), 1500)
-    return () => clearTimeout(timer)
-  }, [setVideoLoading])
+  useVideoLoading()
+
+  const { startSummary } = useSummary(lang)
+  useTranscript(videoUrl, startSummary)
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -57,16 +59,14 @@ export function PreviewPage({ videoUrl, onBack, onGenerate }: PreviewPageProps) 
       </header>
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 gap-10 px-8 py-10 lg:grid-cols-[1fr_380px]">
-        {/* Left: Video Preview + AI Summary */}
         <div className="flex flex-col gap-8">
           <section>
             <VideoPreview videoUrl={videoUrl} />
           </section>
           <div className="h-px bg-border" />
-          <AISummary videoUrl={videoUrl} />
+          <AISummary />
         </div>
 
-        {/* Right: Configuration + Generate */}
         <div className="flex flex-col gap-8">
           <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
             {t('podcastConfig')}

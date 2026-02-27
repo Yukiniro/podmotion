@@ -1,0 +1,44 @@
+'use client'
+
+import { useSetAtom } from 'jotai'
+import { useCallback, useEffect, useRef } from 'react'
+
+import { summaryAtom, summaryStatusAtom } from '@/lib/atoms/preview-atoms'
+import { streamSummary } from '@/lib/services/summary'
+
+export function useSummary(lang: string) {
+  const setSummary = useSetAtom(summaryAtom)
+  const setSummaryStatus = useSetAtom(summaryStatusAtom)
+  const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    return () => abortRef.current?.abort()
+  }, [])
+
+  const startSummary = useCallback(
+    async (transcript: string) => {
+      setSummaryStatus('loading')
+      setSummary('')
+
+      abortRef.current?.abort()
+      const controller = new AbortController()
+      abortRef.current = controller
+
+      try {
+        setSummaryStatus('streaming')
+        await streamSummary(transcript, lang, {
+          signal: controller.signal,
+          onChunk: (text) => setSummary(text),
+        })
+        setSummaryStatus('done')
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return
+        console.error('[summary] Error:', error)
+        setSummaryStatus('error')
+      }
+    },
+    [lang, setSummary, setSummaryStatus]
+  )
+
+  return { startSummary }
+}
