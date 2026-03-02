@@ -1,5 +1,7 @@
 import { streamText } from 'ai'
 
+import { buildSummarySystemPrompt } from '@/lib/prompts/summary'
+
 export const maxDuration = 30
 
 export async function POST(req: Request) {
@@ -10,11 +12,8 @@ export async function POST(req: Request) {
   }
 
   const result = streamText({
-    model: 'openai/gpt-4o-mini',
-    system: `You are a content analyst. Generate a concise summary of the video transcript.
-Respond in ${lang === 'zh' ? 'Chinese' : 'English'}.
-The summary should cover: main topics, key arguments, and conclusions.
-Keep it within 3-5 sentences.`,
+    model: 'google/gemini-2.5-flash',
+    system: buildSummarySystemPrompt(lang),
     prompt: transcript,
   })
 

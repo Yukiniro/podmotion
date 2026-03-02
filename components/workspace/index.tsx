@@ -1,155 +1,100 @@
 'use client'
 
-import type { ScriptParagraph } from '@/lib/store'
-
-import { useAtom, useAtomValue, useSetAtom } from 'jotai'
-import { Plus } from 'lucide-react'
+import { useAtom, useAtomValue } from 'jotai'
+import { AlertCircle, Loader2, Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import dynamic from 'next/dynamic'
-import { useEffect } from 'react'
-
+import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Skeleton } from '@/components/ui/skeleton'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ParagraphCard } from '@/components/workspace/paragraph-card'
-import { PlayerBar } from '@/components/workspace/player-bar'
 import { WorkspaceHeader } from '@/components/workspace/workspace-header'
 import { useParagraphs } from '@/hooks/use-paragraphs'
-import {
-  activeParagraphAtom,
-  allGeneratedAtom,
-  editingParagraphAtom,
-  paragraphsAtom,
-  showChatAtom,
-} from '@/lib/atoms/workspace-atoms'
-
-const ChatPanel = dynamic(() => import('@/components/chat-panel').then((m) => m.ChatPanel), {
-  ssr: false,
-})
-
-const INITIAL_PARAGRAPHS: ScriptParagraph[] = [
-  {
-    id: 'p1',
-    speaker: 'A',
-    text: "Today we're going to talk about a really fascinating topic -- how artificial intelligence is revolutionizing the education sector. The progress we've been seeing lately is genuinely exciting!",
-    emotions: [{ start: 150, end: 175, emotion: 'excited', intensity: 'strong' }],
-    audioStatus: 'generated',
-    audioDuration: 23,
-  },
-  {
-    id: 'p2',
-    speaker: 'B',
-    text: 'Absolutely! I came across a video the other day that was all about this. Did you know that some schools are already using AI to create personalized learning paths for every single student?',
-    emotions: [{ start: 130, end: 185, emotion: 'surprised', intensity: 'moderate' }],
-    audioStatus: 'generated',
-    audioDuration: 18,
-  },
-  {
-    id: 'p3',
-    speaker: 'A',
-    text: 'Yes, and the results are remarkable. The biggest issue with traditional education has always been the one-size-fits-all approach, but every student has a different foundation and learning rhythm.',
-    emotions: [{ start: 160, end: 190, emotion: 'serious', intensity: 'moderate' }],
-    audioStatus: 'generating',
-  },
-  {
-    id: 'p4',
-    speaker: 'B',
-    text: "That's incredible! So how exactly does it work? I mean, how does the AI figure out what each student needs?",
-    emotions: [{ start: 0, end: 22, emotion: 'excited', intensity: 'strong' }],
-    audioStatus: 'none',
-  },
-  {
-    id: 'p5',
-    speaker: 'A',
-    text: "Great question. It starts by analyzing each student's performance data -- test scores, time spent on problems, areas where they struggle. Then the AI adapts the curriculum in real-time.",
-    emotions: [],
-    audioStatus: 'none',
-  },
-]
+import { useScript } from '@/hooks/use-script'
+import { editingParagraphAtom, scriptStatusAtom } from '@/lib/atoms/workspace-atoms'
 
 interface WorkspacePageProps {
   onBack: () => void
-  onExport: () => void
 }
 
-export function WorkspacePage({ onBack, onExport }: WorkspacePageProps) {
+export function WorkspacePage({ onBack }: WorkspacePageProps) {
   const t = useTranslations('workspace')
-  const setParagraphs = useSetAtom(paragraphsAtom)
-  const [showChat, setShowChat] = useAtom(showChatAtom)
-  const activeParagraph = useAtomValue(activeParagraphAtom)
   const [editingParagraph, setEditingParagraph] = useAtom(editingParagraphAtom)
-  const allGenerated = useAtomValue(allGeneratedAtom)
+  const scriptStatus = useAtomValue(scriptStatusAtom)
 
-  const {
-    paragraphs,
-    addParagraph,
-    deleteParagraph,
-    updateText,
-    toggleSpeaker,
-    generateSingle,
-    generateAll,
-    resetParagraphs,
-  } = useParagraphs()
+  const { paragraphs, addParagraph, deleteParagraph, updateText, toggleSpeaker } = useParagraphs()
+  const { generate } = useScript()
 
-  useEffect(() => {
-    setParagraphs(INITIAL_PARAGRAPHS)
-
-    const timer = setTimeout(() => {
-      setParagraphs((prev) =>
-        prev.map((p) =>
-          p.id === 'p3' ? { ...p, audioStatus: 'generated' as const, audioDuration: 21 } : p
-        )
-      )
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [setParagraphs])
+  const isGenerating = scriptStatus === 'loading'
 
   return (
     <TooltipProvider>
       <div className="flex h-screen flex-col overflow-hidden bg-background">
-        <WorkspaceHeader
-          onBack={onBack}
-          showChat={showChat}
-          onToggleChat={() => setShowChat(!showChat)}
-          onGenerateAll={generateAll}
-          onReset={resetParagraphs}
-          initialParagraphs={INITIAL_PARAGRAPHS}
-        />
+        <WorkspaceHeader onBack={onBack} onRegenerate={generate} isGenerating={isGenerating} />
 
-        <div className="flex flex-1 overflow-hidden">
-          <div className="flex flex-1 flex-col overflow-hidden">
-            <ScrollArea className="flex-1">
-              <div className="flex flex-col gap-2 p-5">
-                {paragraphs.map((p, idx) => (
-                  <ParagraphCard
-                    key={p.id}
-                    paragraph={p}
-                    index={idx}
-                    isActive={activeParagraph === p.id}
-                    isEditing={editingParagraph === p.id}
-                    onToggleSpeaker={toggleSpeaker}
-                    onDelete={deleteParagraph}
-                    onStartEditing={(id) => setEditingParagraph(id)}
-                    onStopEditing={() => setEditingParagraph(null)}
-                    onTextChange={updateText}
-                    onGenerate={generateSingle}
-                  />
-                ))}
+        <ScrollArea className="flex-1">
+          <div className="mx-auto w-full max-w-3xl px-6 py-8">
+            <div className="flex flex-col gap-3">
+              {scriptStatus === 'loading' && (
+                <div className="flex flex-col gap-3">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <div
+                      key={`skeleton-${String(i)}`}
+                      className="rounded-xl border border-border p-4"
+                    >
+                      <div className="mb-3 flex items-center gap-2">
+                        <Skeleton className="h-5 w-5 rounded-full" />
+                        <Skeleton className="h-4 w-16" />
+                      </div>
+                      <Skeleton className="mb-2 h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                    </div>
+                  ))}
+                  <div className="flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    {t('generating')}
+                  </div>
+                </div>
+              )}
 
-                <button
-                  onClick={addParagraph}
-                  className="flex items-center justify-center gap-1.5 rounded-lg border border-dashed border-border py-2.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                  {t('addSegment')}
-                </button>
-              </div>
-            </ScrollArea>
+              {scriptStatus === 'error' && (
+                <div className="flex flex-col items-center gap-4 py-16 text-center">
+                  <AlertCircle className="h-10 w-10 text-destructive" />
+                  <p className="text-sm text-muted-foreground">{t('generateError')}</p>
+                  <Button variant="outline" size="sm" onClick={generate}>
+                    {t('retry')}
+                  </Button>
+                </div>
+              )}
 
-            <PlayerBar onExport={onExport} allGenerated={allGenerated} />
+              {(scriptStatus === 'done' || scriptStatus === 'idle') && paragraphs.length > 0 && (
+                <>
+                  {paragraphs.map((p, idx) => (
+                    <ParagraphCard
+                      key={p.id}
+                      paragraph={p}
+                      index={idx}
+                      isEditing={editingParagraph === p.id}
+                      onToggleSpeaker={toggleSpeaker}
+                      onDelete={deleteParagraph}
+                      onStartEditing={(id) => setEditingParagraph(id)}
+                      onStopEditing={() => setEditingParagraph(null)}
+                      onTextChange={updateText}
+                    />
+                  ))}
+
+                  <button
+                    onClick={addParagraph}
+                    className="flex items-center justify-center gap-1.5 rounded-xl border border-dashed border-border py-3 text-sm text-muted-foreground transition-colors duration-150 ease-out hover:border-foreground/20 hover:text-foreground"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    {t('addSegment')}
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-
-          {showChat ? <ChatPanel onClose={() => setShowChat(false)} /> : null}
-        </div>
+        </ScrollArea>
       </div>
     </TooltipProvider>
   )

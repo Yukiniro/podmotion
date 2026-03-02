@@ -7,21 +7,20 @@
   },
   "home": {
     "title": "Turn any YouTube video into a podcast",
-    "description": "Extract subtitles, generate scripts with emotions, and produce expressive audio.",
+    "description": "Extract subtitles, generate scripts with emotions, and produce expressive content.",
     "placeholder": "Paste a YouTube URL...",
     "start": "Start",
     "errorEmpty": "Please enter a YouTube video URL",
     "errorInvalid": "Please enter a valid YouTube URL",
     "steps": {
       "aiScript": "AI Script Generation",
-      "emotionTagging": "Emotion Tagging",
-      "expressiveAudio": "Expressive Audio",
-      "aiChat": "AI Chat Assistant"
+      "emotionTagging": "Emotion Tagging"
     }
   },
   "preview": {
     "podcastConfig": "Podcast Configuration",
     "generateScript": "Generate Podcast Script",
+    "waitingSummary": "Analyzing Content...",
     "subtitles": "Subtitles",
     "contentSummary": "Content Summary",
     "style": "Style",
@@ -52,41 +51,19 @@
     "duo": "Duo",
     "language": "Language",
     "english": "English",
-    "chinese": "Chinese",
-    "voice": "Voice",
-    "voicePreview": "Preview",
-    "male": "M",
-    "female": "F"
+    "chinese": "Chinese"
   },
   "workspace": {
     "regenerate": "Regenerate",
-    "generateAll": "Generate All",
-    "generating": "Generating {progress}/{total}...",
-    "aiAssistant": "AI Assistant",
-    "askAnything": "Ask anything...",
     "addSegment": "Add Segment",
-    "export": "Export",
-    "regenerateAudio": "Regenerate audio",
-    "audioStatus": {
-      "ready": "Ready",
-      "generating": "Generating...",
-      "modified": "Modified",
-      "failed": "Failed",
-      "pending": "Pending"
-    },
-    "contentModified": "Content modified",
-    "noAudio": "No audio",
-    "generate": "Generate",
-    "applied": "Applied",
-    "chatWelcome": "Hello! I'm your podcast AI assistant. You can:\n\n- Ask me about the video content\n- Ask me to optimize specific script segments\n- Request batch emotion tagging\n- Adjust dialogue rhythm and style"
+    "generating": "Generating podcast script...",
+    "generateError": "Failed to generate script. Please try again.",
+    "retry": "Retry",
+    "applied": "Applied"
   },
-  "export": {
-    "title": "Your podcast is ready",
-    "subtitle": "Review details and download.",
-    "regenerate": "Regenerate",
-    "fieldTitle": "Title",
-    "fieldDescription": "Description",
-    "preview": "Preview",
-    "download": "Download (MP3)"
+  "toast": {
+    "transcriptError": "Failed to fetch transcript. Please try again.",
+    "summaryError": "Failed to generate summary. Please try again.",
+    "scriptError": "Failed to generate script. Please try again."
   }
 }

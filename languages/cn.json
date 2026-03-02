@@ -7,21 +7,20 @@
   },
   "home": {
     "title": "将任何 YouTube 视频转为播客",
-    "description": "提取字幕、生成带情感的脚本，并制作富有表现力的音频。",
+    "description": "提取字幕、生成带情感的脚本，并制作富有表现力的内容。",
     "placeholder": "粘贴 YouTube 链接...",
     "start": "开始",
     "errorEmpty": "请输入 YouTube 视频链接",
     "errorInvalid": "请输入有效的 YouTube 链接",
     "steps": {
       "aiScript": "AI 脚本生成",
-      "emotionTagging": "情感标注",
-      "expressiveAudio": "表现力音频",
-      "aiChat": "AI 聊天助手"
+      "emotionTagging": "情感标注"
     }
   },
   "preview": {
     "podcastConfig": "播客配置",
     "generateScript": "生成播客脚本",
+    "waitingSummary": "内容分析中...",
     "subtitles": "字幕",
     "contentSummary": "内容摘要",
     "style": "风格",
@@ -52,41 +51,19 @@
     "duo": "双人",
     "language": "语言",
     "english": "英语",
-    "chinese": "中文",
-    "voice": "语音",
-    "voicePreview": "试听",
-    "male": "男",
-    "female": "女"
+    "chinese": "中文"
   },
   "workspace": {
     "regenerate": "重新生成",
-    "generateAll": "全部生成",
-    "generating": "生成中 {progress}/{total}...",
-    "aiAssistant": "AI 助手",
-    "askAnything": "输入任何问题...",
     "addSegment": "添加段落",
-    "export": "导出",
-    "regenerateAudio": "重新生成音频",
-    "audioStatus": {
-      "ready": "就绪",
-      "generating": "生成中...",
-      "modified": "已修改",
-      "failed": "失败",
-      "pending": "等待中"
-    },
-    "contentModified": "内容已修改",
-    "noAudio": "暂无音频",
-    "generate": "生成",
-    "applied": "已应用",
-    "chatWelcome": "你好！我是你的播客 AI 助手。你可以：\n\n- 向我询问视频内容\n- 让我优化特定脚本段落\n- 请求批量情感标注\n- 调整对话节奏和风格"
+    "generating": "正在生成播客脚本...",
+    "generateError": "脚本生成失败，请重试。",
+    "retry": "重试",
+    "applied": "已应用"
   },
-  "export": {
-    "title": "你的播客已准备就绪",
-    "subtitle": "查看详情并下载。",
-    "regenerate": "重新生成",
-    "fieldTitle": "标题",
-    "fieldDescription": "描述",
-    "preview": "预览",
-    "download": "下载 (MP3)"
+  "toast": {
+    "transcriptError": "字幕获取失败，请重试。",
+    "summaryError": "摘要生成失败，请重试。",
+    "scriptError": "脚本生成失败，请重试。"
   }
 }

@@ -1,17 +1,21 @@
 'use client'
 
 import { useAtomValue, useSetAtom } from 'jotai'
+import { useTranslations } from 'next-intl'
 import { useEffect, useRef } from 'react'
+import { toast } from 'sonner'
 
 import { transcriptAtom, transcriptStatusAtom, videoLoadingAtom } from '@/lib/atoms/preview-atoms'
 import { fetchTranscript, TranscriptPendingError } from '@/lib/services/transcript'
 
 export function useTranscript(videoUrl: string, onTranscriptReady?: (content: string) => void) {
+  const t = useTranslations('toast')
   const videoLoading = useAtomValue(videoLoadingAtom)
+  const transcriptStatus = useAtomValue(transcriptStatusAtom)
   const setTranscript = useSetAtom(transcriptAtom)
   const setTranscriptStatus = useSetAtom(transcriptStatusAtom)
 
-  const statusRef = useRef<'idle' | 'loading' | 'done' | 'error'>('idle')
+  const statusRef = useRef(transcriptStatus)
   const onReadyRef = useRef(onTranscriptReady)
   onReadyRef.current = onTranscriptReady
 
@@ -40,6 +44,7 @@ export function useTranscript(videoUrl: string, onTranscriptReady?: (content: st
           return
         }
         console.error('[transcript] Error:', error)
+        toast.error(t('transcriptError'))
         setTranscriptStatus('error')
         statusRef.current = 'error'
       }

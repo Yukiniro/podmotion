@@ -1,9 +1,9 @@
 'use client'
 
-import { ArrowRight, Headphones, MessageSquare, Sparkles, Wand2 } from 'lucide-react'
+import { ArrowRight, Sparkles, Wand2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { PodCraftLogo } from '@/components/podcraft-logo'
+import { PodmotionLogo } from '@/components/podmotion-logo'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { isValidYoutubeUrl } from '@/lib/utils/validators'
@@ -36,35 +36,28 @@ export function HomePage({ onNavigate }: HomePageProps) {
     }, 800)
   }
 
-  const steps = [
-    { icon: Sparkles, label: t('steps.aiScript') },
-    { icon: Wand2, label: t('steps.emotionTagging') },
-    { icon: Headphones, label: t('steps.expressiveAudio') },
-    { icon: MessageSquare, label: t('steps.aiChat') },
-  ]
-
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-8 py-5">
-        <PodCraftLogo />
+      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-border/50 bg-background/80 px-6 py-4 backdrop-blur-xl">
+        <PodmotionLogo />
         <span className="text-sm text-muted-foreground">{tc('youtubeToPocast')}</span>
       </header>
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 pb-32">
-        <div className="flex max-w-xl flex-col items-center text-center">
-          <h1 className="animate-fade-in-up mb-3 text-balance text-4xl font-bold leading-tight tracking-tight text-foreground">
+        <div className="flex max-w-2xl flex-col items-center text-center">
+          <h1 className="animate-fade-in-up mb-3 text-balance text-[28px] font-semibold leading-tight tracking-tight text-foreground">
             {t('title')}
           </h1>
 
           <p
-            className="animate-fade-in-up mb-10 max-w-md text-pretty text-base leading-relaxed text-muted-foreground"
+            className="animate-fade-in-up mb-12 max-w-md text-pretty text-sm leading-[1.6] text-muted-foreground"
             style={{ animationDelay: '0.08s' }}
           >
             {t('description')}
           </p>
 
-          <div className="animate-fade-in-up w-full max-w-lg" style={{ animationDelay: '0.16s' }}>
-            <div className="flex items-center gap-2 rounded-xl border border-border bg-background p-1.5 transition-colors focus-within:border-foreground/20">
+          <div className="animate-fade-in-up w-full max-w-2xl" style={{ animationDelay: '0.16s' }}>
+            <div className="flex items-center gap-2 rounded-2xl border border-border bg-background p-1.5 transition-colors duration-150 ease-out focus-within:border-foreground/20">
               <Input
                 type="url"
                 placeholder={t('placeholder')}
@@ -74,13 +67,13 @@ export function HomePage({ onNavigate }: HomePageProps) {
                   if (error) setError('')
                 }}
                 onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
-                className="flex-1 border-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="w-[360px] flex-1 rounded-3xl border-0 bg-transparent text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
               />
               <Button
                 onClick={handleSubmit}
                 disabled={isLoading}
                 size="sm"
-                className="gap-1.5 rounded-lg bg-foreground px-5 text-background hover:bg-foreground/90"
+                className="gap-1.5 rounded-2xl bg-foreground px-5 text-background hover:bg-foreground/90"
               >
                 {isLoading ? (
                   <div className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-background/30 border-t-background" />
@@ -94,19 +87,6 @@ export function HomePage({ onNavigate }: HomePageProps) {
             </div>
             {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
           </div>
-        </div>
-
-        <div
-          className="animate-fade-in-up mt-16 flex items-center gap-8"
-          style={{ animationDelay: '0.3s' }}
-        >
-          {steps.map((step, i) => (
-            <div key={step.label} className="flex items-center gap-2">
-              {i > 0 && <div className="mr-6 h-px w-6 bg-border" />}
-              <step.icon className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{step.label}</span>
-            </div>
-          ))}
         </div>
       </main>
     </div>

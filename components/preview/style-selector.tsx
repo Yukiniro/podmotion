@@ -20,7 +20,7 @@ export function StyleSelector() {
           <button
             key={opt.id}
             onClick={() => changeStyle(opt.id)}
-            className={`rounded-lg px-3.5 py-1.5 text-sm transition-all ${
+            className={`rounded-2xl px-3.5 py-1.5 text-sm transition-all duration-150 ease-out ${
               style === opt.id
                 ? 'bg-foreground text-background'
                 : 'bg-muted text-muted-foreground hover:text-foreground'

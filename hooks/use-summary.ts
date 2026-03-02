@@ -1,14 +1,20 @@
 'use client'
 
-import { useSetAtom } from 'jotai'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { useTranslations } from 'next-intl'
 import { useCallback, useEffect, useRef } from 'react'
+import { toast } from 'sonner'
 
 import { summaryAtom, summaryStatusAtom } from '@/lib/atoms/preview-atoms'
 import { streamSummary } from '@/lib/services/summary'
 
 export function useSummary(lang: string) {
+  const t = useTranslations('toast')
   const setSummary = useSetAtom(summaryAtom)
   const setSummaryStatus = useSetAtom(summaryStatusAtom)
+  const summaryStatus = useAtomValue(summaryStatusAtom)
+  const summaryStatusRef = useRef(summaryStatus)
+  summaryStatusRef.current = summaryStatus
   const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
@@ -17,6 +23,8 @@ export function useSummary(lang: string) {
 
   const startSummary = useCallback(
     async (transcript: string) => {
+      if (summaryStatusRef.current === 'done') return
+
       setSummaryStatus('loading')
       setSummary('')
 
@@ -34,6 +42,7 @@ export function useSummary(lang: string) {
       } catch (error) {
         if (error instanceof DOMException && error.name === 'AbortError') return
         console.error('[summary] Error:', error)
+        toast.error(t('summaryError'))
         setSummaryStatus('error')
       }
     },

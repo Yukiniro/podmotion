@@ -1,9 +1,9 @@
 'use client'
 
-import type { PreviewConfig } from '@/components/preview-page'
 import type { AppPage } from '@/lib/store'
+
 import { useState } from 'react'
-import { ExportPage } from '@/components/export-page'
+
 import { HomePage } from '@/components/home-page'
 import { PreviewPage } from '@/components/preview-page'
 import { WorkspacePage } from '@/components/workspace'
@@ -11,16 +11,10 @@ import { WorkspacePage } from '@/components/workspace'
 export default function Page() {
   const [currentPage, setCurrentPage] = useState<AppPage>('home')
   const [videoUrl, setVideoUrl] = useState('')
-  const [_config, setConfig] = useState<PreviewConfig | null>(null)
 
   const handleHomeNavigate = (url: string) => {
     setVideoUrl(url)
     setCurrentPage('preview')
-  }
-
-  const handlePreviewGenerate = (config: PreviewConfig) => {
-    setConfig(config)
-    setCurrentPage('workspace')
   }
 
   switch (currentPage) {
@@ -31,18 +25,11 @@ export default function Page() {
         <PreviewPage
           videoUrl={videoUrl}
           onBack={() => setCurrentPage('home')}
-          onGenerate={handlePreviewGenerate}
+          onGenerate={() => setCurrentPage('workspace')}
         />
       )
     case 'workspace':
-      return (
-        <WorkspacePage
-          onBack={() => setCurrentPage('preview')}
-          onExport={() => setCurrentPage('export')}
-        />
-      )
-    case 'export':
-      return <ExportPage onBack={() => setCurrentPage('workspace')} />
+      return <WorkspacePage onBack={() => setCurrentPage('preview')} />
     default:
       return <HomePage onNavigate={handleHomeNavigate} />
   }
