@@ -1,52 +1,91 @@
 'use client'
 
+import type { AudioGenStatus } from '@/lib/atoms/workspace-atoms'
 import type { ScriptParagraph } from '@/lib/store'
 
-import { X } from 'lucide-react'
+import { Loader2, Pause, Play, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { renderTextWithEmotions } from '@/lib/utils/emotion'
+import { formatTime } from '@/lib/utils/format'
 
 interface ParagraphCardProps {
   paragraph: ScriptParagraph
   index: number
   isEditing: boolean
+  audioStatus: AudioGenStatus
+  isPlaying: boolean
+  singleSpeaker?: boolean
   onToggleSpeaker: (id: string) => void
   onDelete: (id: string) => void
   onStartEditing: (id: string) => void
   onStopEditing: () => void
   onTextChange: (id: string, text: string) => void
+  onPlay: (id: string) => void
 }
 
 export function ParagraphCard({
   paragraph: p,
   index,
   isEditing,
+  audioStatus,
+  isPlaying,
+  singleSpeaker,
   onToggleSpeaker,
   onDelete,
   onStartEditing,
   onStopEditing,
   onTextChange,
+  onPlay,
 }: ParagraphCardProps) {
-  const _t = useTranslations('workspace')
+  const t = useTranslations('workspace')
+  const isGenerating = audioStatus === 'generating'
+  const hasAudio = !!p.audioUrl
 
   return (
     <div className="group rounded-xl border border-transparent transition-all duration-150 ease-out hover:border-border hover:bg-muted/30">
       <div className="flex items-center gap-2 px-4 pb-1 pt-3">
-        <button
-          onClick={() => onToggleSpeaker(p.id)}
-          className={`rounded-lg px-1.5 py-0.5 text-[11px] font-semibold transition-colors duration-150 ease-out ${
-            p.speaker === 'A'
-              ? 'bg-foreground/10 text-foreground'
-              : 'bg-muted text-muted-foreground'
-          }`}
-        >
-          {p.speaker}
-        </button>
+        {!singleSpeaker && (
+          <button
+            onClick={() => onToggleSpeaker(p.id)}
+            className={`rounded-lg px-1.5 py-0.5 text-[11px] font-semibold transition-colors duration-150 ease-out ${
+              p.speaker === 'A'
+                ? 'bg-foreground/10 text-foreground'
+                : 'bg-muted text-muted-foreground'
+            }`}
+          >
+            {p.speaker}
+          </button>
+        )}
         <span className="text-[11px] text-muted-foreground">#{index + 1}</span>
+
+        {hasAudio && p.audioDuration != null && p.audioDuration > 0 && (
+          <span className="text-[10px] tabular-nums text-muted-foreground">
+            {formatTime(p.audioDuration / 1000)}
+          </span>
+        )}
+
         <div className="flex-1" />
+
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6 text-muted-foreground hover:text-foreground"
+          onClick={() => onPlay(p.id)}
+          disabled={isGenerating || !p.text.trim()}
+          title={isPlaying ? t('pause') : t('play')}
+        >
+          {isGenerating ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : isPlaying ? (
+            <Pause className="h-3 w-3" />
+          ) : (
+            <Play className="h-3 w-3" />
+          )}
+        </Button>
+
         <Button
           variant="ghost"
           size="icon"
@@ -73,6 +112,10 @@ export function ParagraphCard({
           >
             {renderTextWithEmotions(p.text, p.emotions)}
           </p>
+        )}
+
+        {audioStatus === 'error' && (
+          <p className="mt-1 text-[11px] text-destructive">{t('generationFailed')}</p>
         )}
       </div>
     </div>

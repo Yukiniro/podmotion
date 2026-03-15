@@ -1,16 +1,17 @@
 import type { PodcastStyle, ScriptParagraph } from '@/lib/store'
 
-export interface GenerateScriptParams {
+export interface StreamScriptParams {
   transcript: string
   summary: string
   style: PodcastStyle
   speakers: 1 | 2
   language: 'zh' | 'en'
   signal?: AbortSignal
+  onParagraph: (paragraph: ScriptParagraph) => void
 }
 
-export async function generateScript(params: GenerateScriptParams): Promise<ScriptParagraph[]> {
-  const { signal, ...body } = params
+export async function streamScript(params: StreamScriptParams): Promise<ScriptParagraph[]> {
+  const { signal, onParagraph, ...body } = params
 
   const res = await fetch('/api/script', {
     method: 'POST',
@@ -24,6 +25,36 @@ export async function generateScript(params: GenerateScriptParams): Promise<Scri
     throw new Error(error.error || 'Script generation failed')
   }
 
-  const data = await res.json()
-  return data.paragraphs as ScriptParagraph[]
+  if (!res.body) {
+    throw new Error('No response body')
+  }
+
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  const paragraphs: ScriptParagraph[] = []
+  let buffer = ''
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+
+    buffer += decoder.decode(value, { stream: true })
+    const lines = buffer.split('\n')
+    buffer = lines.pop()!
+
+    for (const line of lines) {
+      if (!line.trim()) continue
+      const paragraph = JSON.parse(line) as ScriptParagraph
+      paragraphs.push(paragraph)
+      onParagraph(paragraph)
+    }
+  }
+
+  if (buffer.trim()) {
+    const paragraph = JSON.parse(buffer) as ScriptParagraph
+    paragraphs.push(paragraph)
+    onParagraph(paragraph)
+  }
+
+  return paragraphs
 }

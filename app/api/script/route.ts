@@ -1,4 +1,4 @@
-import { generateText, Output } from 'ai'
+import { Output, streamText } from 'ai'
 import { z } from 'zod'
 
 import { buildScriptSystemPrompt } from '@/lib/prompts/script'
@@ -28,10 +28,6 @@ const paragraphSchema = z.object({
   emotions: z.array(emotionSchema).describe('Emotion annotations for segments of the text'),
 })
 
-const scriptSchema = z.object({
-  paragraphs: z.array(paragraphSchema),
-})
-
 export async function POST(req: Request) {
   let body
   try {
@@ -46,12 +42,24 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Missing transcript' }, { status: 400 })
   }
 
-  const result = await generateText({
+  const result = streamText({
     model: 'google/gemini-2.5-flash',
-    output: Output.object({ schema: scriptSchema }),
+    output: Output.array({ element: paragraphSchema }),
     system: buildScriptSystemPrompt({ style, speakers, language }),
     prompt: `Video Summary:\n${summary}\n\nFull Transcript:\n${transcript}`,
   })
 
-  return Response.json(result.output)
+  const stream = new ReadableStream({
+    async start(controller) {
+      const encoder = new TextEncoder()
+      for await (const paragraph of result.elementStream) {
+        controller.enqueue(encoder.encode(`${JSON.stringify(paragraph)  }\n`))
+      }
+      controller.close()
+    },
+  })
+
+  return new Response(stream, {
+    headers: { 'Content-Type': 'application/x-ndjson' },
+  })
 }

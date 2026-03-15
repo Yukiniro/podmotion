@@ -1,0 +1,444 @@
+{
+  "generatedAt": "2026-03-03T13:07:06.056Z",
+  "model": "speech-2.8-turbo",
+  "voices": [
+    {
+      "voice_id": "English_expressive_narrator",
+      "voice_name": "Expressive Narrator",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "An expressive adult male voice with a British accent, perfect for engaging audiobook narration."
+      ],
+      "preview_file": "English_expressive_narrator.mp3",
+      "duration": 4248
+    },
+    {
+      "voice_id": "English_radiant_girl",
+      "voice_name": "Radiant Girl",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A radiant and lively young adult female voice with a general American accent, full of energy and brightness."
+      ],
+      "preview_file": "English_radiant_girl.mp3",
+      "duration": 4320
+    },
+    {
+      "voice_id": "English_magnetic_voiced_man",
+      "voice_name": "Magnetic-voiced Male",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A magnetic and persuasive adult male voice with a general American accent, ideal for advertisements and promotions."
+      ],
+      "preview_file": "English_magnetic_voiced_man.mp3",
+      "duration": 4248
+    },
+    {
+      "voice_id": "English_compelling_lady1",
+      "voice_name": "Compelling Lady",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A compelling adult female voice with a British accent, suitable for broadcast and formal announcements. Clear and authoritative."
+      ],
+      "preview_file": "English_compelling_lady1.mp3",
+      "duration": 4644
+    },
+    {
+      "voice_id": "English_Aussie_Bloke",
+      "voice_name": "Aussie Bloke",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A friendly, bright adult male voice with a distinct Australian accent, conveying a cheerful and approachable tone."
+      ],
+      "preview_file": "English_Aussie_Bloke.mp3",
+      "duration": 4140
+    },
+    {
+      "voice_id": "English_captivating_female1",
+      "voice_name": "Captivating Female",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A captivating adult female voice with a general American accent, ideal for news reporting and documentary narration."
+      ],
+      "preview_file": "English_captivating_female1.mp3",
+      "duration": 4356
+    },
+    {
+      "voice_id": "English_Upbeat_Woman",
+      "voice_name": "Upbeat Woman",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "An upbeat and bright adult female voice with a general American accent, perfect for energetic and positive messaging."
+      ],
+      "preview_file": "English_Upbeat_Woman.mp3",
+      "duration": 4284
+    },
+    {
+      "voice_id": "English_Trustworth_Man",
+      "voice_name": "Trustworthy Man",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A trustworthy and resonant adult male voice with a general American accent, conveying sincerity and reliability."
+      ],
+      "preview_file": "English_Trustworth_Man.mp3",
+      "duration": 3924
+    },
+    {
+      "voice_id": "English_CalmWoman",
+      "voice_name": "Calm Woman",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A calm and soothing adult female voice with a general American accent, excellent for audiobooks and meditation guides."
+      ],
+      "preview_file": "English_CalmWoman.mp3",
+      "duration": 4284
+    },
+    {
+      "voice_id": "English_UpsetGirl",
+      "voice_name": "Upset Girl",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A young adult female voice with a British accent, effectively conveying sadness and distress."
+      ],
+      "preview_file": "English_UpsetGirl.mp3",
+      "duration": 4067
+    },
+    {
+      "voice_id": "English_Gentle-voiced_man",
+      "voice_name": "Gentle-voiced Man",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A gentle and resonant adult male voice with a general American accent, warm and reassuring."
+      ],
+      "preview_file": "English_Gentle-voiced_man.mp3",
+      "duration": 5256
+    },
+    {
+      "voice_id": "English_Whispering_girl",
+      "voice_name": "Whispering girl",
+      "language": "English",
+      "gender": "female",
+      "description": [],
+      "preview_file": "English_Whispering_girl.mp3",
+      "duration": 6120
+    },
+    {
+      "voice_id": "English_Diligent_Man",
+      "voice_name": "Diligent Man",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A diligent and sincere adult male voice with an Indian accent, conveying honesty and hard work."
+      ],
+      "preview_file": "English_Diligent_Man.mp3",
+      "duration": 4428
+    },
+    {
+      "voice_id": "English_Graceful_Lady",
+      "voice_name": "Graceful Lady",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A graceful and elegant middle-aged female voice with a classic British accent, exuding sophistication."
+      ],
+      "preview_file": "English_Graceful_Lady.mp3",
+      "duration": 4572
+    },
+    {
+      "voice_id": "English_ReservedYoungMan",
+      "voice_name": "Reserved Young Man",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A reserved and cold adult male voice with a general American accent, conveying distance and introspection."
+      ],
+      "preview_file": "English_ReservedYoungMan.mp3",
+      "duration": 4320
+    },
+    {
+      "voice_id": "English_PlayfulGirl",
+      "voice_name": "Playful Girl",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A playful female youth voice with a general American accent, ideal for cartoons and children's entertainment."
+      ],
+      "preview_file": "English_PlayfulGirl.mp3",
+      "duration": 4500
+    },
+    {
+      "voice_id": "English_ManWithDeepVoice",
+      "voice_name": "Man With Deep Voice",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "An adult male with a deep, commanding voice and a general American accent, projecting authority and strength."
+      ],
+      "preview_file": "English_ManWithDeepVoice.mp3",
+      "duration": 4320
+    },
+    {
+      "voice_id": "English_MaturePartner",
+      "voice_name": "Mature Partner",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A mature, gentle middle-aged male voice with a British accent, suitable for a caring and supportive partner role."
+      ],
+      "preview_file": "English_MaturePartner.mp3",
+      "duration": 5544
+    },
+    {
+      "voice_id": "English_FriendlyPerson",
+      "voice_name": "Friendly Guy",
+      "language": "English",
+      "gender": "male",
+      "description": [
+        "A friendly and natural-sounding adult male voice with a general American accent, like an approachable guy-next-door."
+      ],
+      "preview_file": "English_FriendlyPerson.mp3",
+      "duration": 4536
+    },
+    {
+      "voice_id": "English_MatureBoss",
+      "voice_name": "Bossy Lady",
+      "language": "English",
+      "gender": "female",
+      "description": [
+        "A mature, middle-aged female voice with a general American accent, conveying authority and a commanding presence."
+      ],
+      "preview_file": "English_MatureBoss.mp3",
+      "duration": 4356
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Reliable_Executive",
+      "voice_name": "Reliable Executive",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A steady and reliable middle-aged male executive voice in Standard Mandarin, conveying trustworthiness."
+      ],
+      "preview_file": "Chinese (Mandarin)_Reliable_Executive.mp3",
+      "duration": 4500
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_News_Anchor",
+      "voice_name": "News Anchor",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A professional, broadcaster-like middle-aged female news anchor in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_News_Anchor.mp3",
+      "duration": 4860
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Unrestrained_Young_Man",
+      "voice_name": "Unrestrained Young Man",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "An unrestrained and free-spirited adult male voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Unrestrained_Young_Man.mp3",
+      "duration": 5184
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Mature_Woman",
+      "voice_name": "Mature Woman",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A charming and mature adult female voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Mature_Woman.mp3",
+      "duration": 5796
+    },
+    {
+      "voice_id": "Arrogant_Miss",
+      "voice_name": "Arrogant Miss",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "An arrogant adult female voice in Standard Mandarin, projecting confidence and superiority."
+      ],
+      "preview_file": "Arrogant_Miss.mp3",
+      "duration": 4176
+    },
+    {
+      "voice_id": "Robot_Armor",
+      "voice_name": "Robot Armor",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "An electronic, robotic adult male voice, suitable for sci-fi or futuristic content in Standard Mandarin."
+      ],
+      "preview_file": "Robot_Armor.mp3",
+      "duration": 4356
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Kind-hearted_Antie",
+      "voice_name": "Kind-hearted Antie",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A gentle and kind-hearted middle-aged \"antie\" voice in Standard Mandarin, warm and caring."
+      ],
+      "preview_file": "Chinese (Mandarin)_Kind-hearted_Antie.mp3",
+      "duration": 4572
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_HK_Flight_Attendant",
+      "voice_name": "HK Flight Attendant",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A polite middle-aged female flight attendant with a Southern Chinese accent, clear and courteous."
+      ],
+      "preview_file": "Chinese (Mandarin)_HK_Flight_Attendant.mp3",
+      "duration": 4644
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Humorous_Elder",
+      "voice_name": "Humorous Elder",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A refreshing and humorous senior male voice with a Northern Chinese accent, full of character."
+      ],
+      "preview_file": "Chinese (Mandarin)_Humorous_Elder.mp3",
+      "duration": 4788
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Gentleman",
+      "voice_name": "Gentleman",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A magnetic and charismatic adult male gentleman in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Gentleman.mp3",
+      "duration": 3600
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Warm_Bestie",
+      "voice_name": "Warm Bestie",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A warm and crisp adult female \"bestie\" voice in Standard Mandarin, friendly and clear."
+      ],
+      "preview_file": "Chinese (Mandarin)_Warm_Bestie.mp3",
+      "duration": 4067
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Stubborn_Friend",
+      "voice_name": "Stubborn Friend",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "An uninhibited and stubborn adult male friend's voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Stubborn_Friend.mp3",
+      "duration": 4067
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Sweet_Lady",
+      "voice_name": "Sweet Lady",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A tender and sweet adult female voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Sweet_Lady.mp3",
+      "duration": 4752
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Southern_Young_Man",
+      "voice_name": "Southern Young Man",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "An earnest adult male voice with a Southern Chinese accent."
+      ],
+      "preview_file": "Chinese (Mandarin)_Southern_Young_Man.mp3",
+      "duration": 4067
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Wise_Women",
+      "voice_name": "Wise Women",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A lyrical and wise middle-aged female voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Wise_Women.mp3",
+      "duration": 4608
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Gentle_Youth",
+      "voice_name": "Gentle Youth",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A gentle adult male youth voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Gentle_Youth.mp3",
+      "duration": 4067
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Warm_Girl",
+      "voice_name": "Warm Girl",
+      "language": "Chinese (Mandarin)",
+      "gender": "female",
+      "description": [
+        "A soft and warm young adult female voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Warm_Girl.mp3",
+      "duration": 3888
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Male_Announcer",
+      "voice_name": "Male Announcer",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A magnetic middle-aged male announcer voice in Standard Mandarin, clear and authoritative."
+      ],
+      "preview_file": "Chinese (Mandarin)_Male_Announcer.mp3",
+      "duration": 4500
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Kind-hearted_Elder",
+      "voice_name": "Kind-hearted Elder",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "A kind and gentle senior female voice in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Kind-hearted_Elder.mp3",
+      "duration": 4680
+    },
+    {
+      "voice_id": "Chinese (Mandarin)_Cute_Spirit",
+      "voice_name": "Cute Spirit",
+      "language": "Chinese (Mandarin)",
+      "gender": "male",
+      "description": [
+        "An adorable and cute female spirit voice, youthful and sweet, in Standard Mandarin."
+      ],
+      "preview_file": "Chinese (Mandarin)_Cute_Spirit.mp3",
+      "duration": 5076
+    }
+  ]
+}

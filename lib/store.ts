@@ -74,6 +74,17 @@ export interface ScriptParagraph {
   speaker: 'A' | 'B'
   text: string
   emotions: EmotionMark[]
+  audioUrl?: string
+  audioDuration?: number
+}
+
+export interface VoiceOption {
+  voice_id: string
+  voice_name: string
+  language: string
+  gender: 'male' | 'female'
+  description?: string[]
+  preview_url?: string
 }
 
 export const EMOTION_COLORS: Record<EmotionType, string> = {

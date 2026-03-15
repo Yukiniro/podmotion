@@ -13,7 +13,7 @@ import {
   transcriptAtom,
 } from '@/lib/atoms/preview-atoms'
 import { paragraphsAtom, scriptStatusAtom } from '@/lib/atoms/workspace-atoms'
-import { generateScript } from '@/lib/services/script'
+import { streamScript } from '@/lib/services/script'
 
 export function useScript() {
   const t = useTranslations('toast')
@@ -28,6 +28,7 @@ export function useScript() {
 
   const abortRef = useRef<AbortController | null>(null)
   const initializedRef = useRef(false)
+  const firstParagraphRef = useRef(false)
 
   const generate = useCallback(async () => {
     if (!transcript || !summary) return
@@ -35,20 +36,27 @@ export function useScript() {
     abortRef.current?.abort()
     const controller = new AbortController()
     abortRef.current = controller
+    firstParagraphRef.current = false
 
     setScriptStatus('loading')
     setParagraphs([])
 
     try {
-      const paragraphs = await generateScript({
+      await streamScript({
         transcript,
         summary,
         style,
         speakers,
         language,
         signal: controller.signal,
+        onParagraph: (paragraph) => {
+          if (!firstParagraphRef.current) {
+            firstParagraphRef.current = true
+            setScriptStatus('streaming')
+          }
+          setParagraphs((prev) => [...prev, paragraph])
+        },
       })
-      setParagraphs(paragraphs)
       setScriptStatus('done')
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') return
