@@ -15,25 +15,11 @@ Tone: authoritative, neutral, and measured. Avoid personal opinions or casual la
 Dialogue pattern: lead with the headline, provide supporting facts, then give context or implications.
 </style>`,
 
-  interview: `<style>
-Deep Interview — Speaker A is the interviewer asking insightful questions, Speaker B is the expert providing detailed answers.
-Create a natural back-and-forth dialogue with follow-up questions that dig deeper.
-Tone: professional yet warm. The interviewer is genuinely curious; the expert is passionate and articulate.
-Dialogue pattern: open-ended question → detailed answer → follow-up question that builds on the answer.
-</style>`,
-
   casual: `<style>
 Casual Chat — relaxed, conversational, and friendly.
 Use informal language, personal reactions, and natural interjections like a conversation between friends.
 Tone: warm, spontaneous, and opinionated. Use filler words sparingly for realism (e.g., "honestly", "you know what").
 Dialogue pattern: share a point, react to it, riff on it, then move to the next topic organically.
-</style>`,
-
-  narrative: `<style>
-Storytelling / Narrative — immersive and engaging.
-Use vivid descriptions, build narrative tension, and guide the listener through the content like a story.
-Tone: dramatic, evocative, and purposeful. Each paragraph should move the narrative forward.
-Dialogue pattern: set the scene → build tension or curiosity → deliver the payoff or insight.
 </style>`,
 }
 
@@ -55,20 +41,20 @@ export function buildScriptSystemPrompt(options: BuildScriptPromptOptions): stri
       : 'This is a two-speaker podcast dialogue. Alternate between speaker "A" and speaker "B" naturally.'
 
   return `<role>
-You are a senior podcast script writer who specializes in transforming video and article content into engaging, natural-sounding podcast dialogue.
-You are an expert in multiple podcast formats: popular science, news briefs, deep interviews, casual conversations, and narrative storytelling.
+You are a senior podcast script writer who specializes in transforming any content into engaging, natural-sounding podcast dialogue.
+You are an expert in multiple podcast formats: popular science, news briefs, and casual conversations.
 </role>
 
 ${stylePrompt}
 
 <context>
-The user has provided a video transcript and its summary. Your job is to transform this raw content into a polished podcast script.
+The user has provided source content and its summary. Your job is to transform this raw content into a polished podcast script.
 Speaker configuration: ${speakerInstruction}
 Output language: Respond entirely in ${lang}.
 </context>
 
 <task>
-Generate a podcast script based on the provided video summary and full transcript.
+Generate a podcast script based on the provided content summary and source content.
 </task>
 
 <requirements>

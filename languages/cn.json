@@ -3,15 +3,16 @@
     "back": "返回",
     "loading": "加载中...",
     "error": "发生错误",
-    "youtubeToPocast": "YouTube 转播客"
+    "contentToPodcast": "内容转播客"
   },
   "home": {
-    "title": "将任何 YouTube 视频转为播客",
-    "description": "提取字幕、生成带情感的脚本，并制作富有表现力的内容。",
-    "placeholder": "粘贴 YouTube 链接...",
+    "title": "将任意内容转为播客",
+    "description": "粘贴链接或文本，生成带情感的脚本，制作富有表现力的播客。",
+    "placeholder": "粘贴 YouTube 链接、网页链接，或输入你的内容...",
     "start": "开始",
-    "errorEmpty": "请输入 YouTube 视频链接",
-    "errorInvalid": "请输入有效的 YouTube 链接",
+    "errorEmpty": "请输入链接或文本",
+    "errorInvalid": "请输入有效的链接",
+    "errorTextTooShort": "请输入至少 50 个字符",
     "steps": {
       "aiScript": "AI 脚本生成",
       "emotionTagging": "情感标注"
@@ -23,6 +24,8 @@
     "waitingSummary": "内容分析中...",
     "subtitles": "字幕",
     "contentSummary": "内容摘要",
+    "webSource": "来源",
+    "textInput": "文本输入",
     "style": "风格",
     "styles": {
       "popular-science": {
@@ -33,17 +36,9 @@
         "label": "新闻简报",
         "description": "正式、客观的报道"
       },
-      "interview": {
-        "label": "深度访谈",
-        "description": "深入的问答对话"
-      },
       "casual": {
         "label": "闲聊",
         "description": "轻松的对话风格"
-      },
-      "narrative": {
-        "label": "叙事",
-        "description": "沉浸式的叙述"
       }
     },
     "speakers": "主播",
@@ -81,6 +76,7 @@
   },
   "toast": {
     "transcriptError": "字幕获取失败，请重试。",
+    "scrapeError": "网页内容获取失败，请重试。",
     "summaryError": "摘要生成失败，请重试。",
     "scriptError": "脚本生成失败，请重试。"
   }

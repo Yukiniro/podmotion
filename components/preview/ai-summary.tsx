@@ -3,6 +3,7 @@
 import { useAtomValue } from 'jotai'
 import { useTranslations } from 'next-intl'
 
+import { SectionTitle } from '@/components/common/section-title'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   summaryAtom,
@@ -53,9 +54,7 @@ export function AISummary() {
 
   return (
     <section>
-      <h3 className="mb-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {t('contentSummary')}
-      </h3>
+      <SectionTitle className="mb-3">{t('contentSummary')}</SectionTitle>
       {renderContent()}
     </section>
   )

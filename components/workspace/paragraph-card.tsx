@@ -6,6 +6,7 @@ import type { ScriptParagraph } from '@/lib/store'
 import { Loader2, Pause, Play, X } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { ChipButton } from '@/components/common/chip-button'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { renderTextWithEmotions } from '@/lib/utils/emotion'
@@ -48,16 +49,18 @@ export function ParagraphCard({
     <div className="group rounded-xl border border-transparent transition-all duration-150 ease-out hover:border-border hover:bg-muted/30">
       <div className="flex items-center gap-2 px-4 pb-1 pt-3">
         {!singleSpeaker && (
-          <button
-            onClick={() => onToggleSpeaker(p.id)}
-            className={`rounded-lg px-1.5 py-0.5 text-[11px] font-semibold transition-colors duration-150 ease-out ${
+          <ChipButton
+            size="sm"
+            active={p.speaker === 'A'}
+            className={`font-semibold ${
               p.speaker === 'A'
                 ? 'bg-foreground/10 text-foreground'
-                : 'bg-muted text-muted-foreground'
+                : ''
             }`}
+            onClick={() => onToggleSpeaker(p.id)}
           >
             {p.speaker}
-          </button>
+          </ChipButton>
         )}
         <span className="text-[11px] text-muted-foreground">#{index + 1}</span>
 

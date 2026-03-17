@@ -3,10 +3,7 @@
 import { useAtom } from 'jotai'
 import { useCallback, useEffect } from 'react'
 
-import {
-  audioPreviewActiveIdAtom,
-  audioPreviewStateAtom,
-} from '@/lib/atoms/workspace-atoms'
+import { audioPreviewActiveIdAtom, audioPreviewStateAtom } from '@/lib/atoms/workspace-atoms'
 
 let sharedAudio: HTMLAudioElement | null = null
 

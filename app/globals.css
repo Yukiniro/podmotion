@@ -51,7 +51,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground leading-[1.6];
+    @apply bg-background leading-[1.6] text-foreground;
   }
 }
 

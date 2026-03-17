@@ -1,7 +1,11 @@
-import type { PodcastStyle } from '@/lib/store'
+import type { InputMode, PodcastStyle } from '@/lib/store'
 
 import { atom } from 'jotai'
 import { STYLE_OPTIONS } from '@/lib/store'
+
+export const inputModeAtom = atom<InputMode>('youtube')
+export const webPageTitleAtom = atom<string>('')
+export const webPageDomainAtom = atom<string>('')
 
 export const videoLoadingAtom = atom(true)
 

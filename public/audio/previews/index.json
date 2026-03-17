@@ -247,9 +247,7 @@
       "voice_name": "Unrestrained Young Man",
       "language": "Chinese (Mandarin)",
       "gender": "male",
-      "description": [
-        "An unrestrained and free-spirited adult male voice in Standard Mandarin."
-      ],
+      "description": ["An unrestrained and free-spirited adult male voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Unrestrained_Young_Man.mp3",
       "duration": 5184
     },
@@ -258,9 +256,7 @@
       "voice_name": "Mature Woman",
       "language": "Chinese (Mandarin)",
       "gender": "female",
-      "description": [
-        "A charming and mature adult female voice in Standard Mandarin."
-      ],
+      "description": ["A charming and mature adult female voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Mature_Woman.mp3",
       "duration": 5796
     },
@@ -324,9 +320,7 @@
       "voice_name": "Gentleman",
       "language": "Chinese (Mandarin)",
       "gender": "male",
-      "description": [
-        "A magnetic and charismatic adult male gentleman in Standard Mandarin."
-      ],
+      "description": ["A magnetic and charismatic adult male gentleman in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Gentleman.mp3",
       "duration": 3600
     },
@@ -357,9 +351,7 @@
       "voice_name": "Sweet Lady",
       "language": "Chinese (Mandarin)",
       "gender": "female",
-      "description": [
-        "A tender and sweet adult female voice in Standard Mandarin."
-      ],
+      "description": ["A tender and sweet adult female voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Sweet_Lady.mp3",
       "duration": 4752
     },
@@ -368,9 +360,7 @@
       "voice_name": "Southern Young Man",
       "language": "Chinese (Mandarin)",
       "gender": "male",
-      "description": [
-        "An earnest adult male voice with a Southern Chinese accent."
-      ],
+      "description": ["An earnest adult male voice with a Southern Chinese accent."],
       "preview_file": "Chinese (Mandarin)_Southern_Young_Man.mp3",
       "duration": 4067
     },
@@ -379,9 +369,7 @@
       "voice_name": "Wise Women",
       "language": "Chinese (Mandarin)",
       "gender": "female",
-      "description": [
-        "A lyrical and wise middle-aged female voice in Standard Mandarin."
-      ],
+      "description": ["A lyrical and wise middle-aged female voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Wise_Women.mp3",
       "duration": 4608
     },
@@ -390,9 +378,7 @@
       "voice_name": "Gentle Youth",
       "language": "Chinese (Mandarin)",
       "gender": "male",
-      "description": [
-        "A gentle adult male youth voice in Standard Mandarin."
-      ],
+      "description": ["A gentle adult male youth voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Gentle_Youth.mp3",
       "duration": 4067
     },
@@ -401,9 +387,7 @@
       "voice_name": "Warm Girl",
       "language": "Chinese (Mandarin)",
       "gender": "female",
-      "description": [
-        "A soft and warm young adult female voice in Standard Mandarin."
-      ],
+      "description": ["A soft and warm young adult female voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Warm_Girl.mp3",
       "duration": 3888
     },
@@ -423,9 +407,7 @@
       "voice_name": "Kind-hearted Elder",
       "language": "Chinese (Mandarin)",
       "gender": "male",
-      "description": [
-        "A kind and gentle senior female voice in Standard Mandarin."
-      ],
+      "description": ["A kind and gentle senior female voice in Standard Mandarin."],
       "preview_file": "Chinese (Mandarin)_Kind-hearted_Elder.mp3",
       "duration": 4680
     },

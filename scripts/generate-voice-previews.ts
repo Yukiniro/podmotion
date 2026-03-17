@@ -100,7 +100,7 @@ async function generateAudio(
   text: string,
   voiceId: string,
   languageBoost: string,
-  model: string,
+  model: string
 ): Promise<{ buffer: Buffer; duration: number }> {
   const res = await fetch(TTS_API_URL, {
     method: 'POST',
@@ -148,7 +148,7 @@ async function generateAudio(
 async function runWithConcurrency<T, R>(
   items: T[],
   concurrency: number,
-  fn: (item: T, index: number) => Promise<R>,
+  fn: (item: T, index: number) => Promise<R>
 ): Promise<R[]> {
   const results: R[] = []
   let cursor = 0
@@ -190,7 +190,10 @@ async function main() {
   const allVoices = await fetchSystemVoices()
   console.log(`Found ${allVoices.length} total system voices`)
 
-  const grouped: Record<string, (MiniMaxVoice & { language: string; gender: 'male' | 'female' })[]> = {}
+  const grouped: Record<
+    string,
+    (MiniMaxVoice & { language: string; gender: 'male' | 'female' })[]
+  > = {}
 
   for (const v of allVoices) {
     const language = inferLanguage(v.voice_id)
@@ -208,7 +211,7 @@ async function main() {
   console.log(
     `Selected ${voicesToProcess.length} voices: ${Object.entries(grouped)
       .map(([lang, arr]) => `${lang}(${arr.length})`)
-      .join(', ')}`,
+      .join(', ')}`
   )
 
   const entries: VoiceEntry[] = []
@@ -243,7 +246,12 @@ async function main() {
       try {
         if (attempt > 0) console.log(`${label} — retry #${attempt}`)
 
-        const { buffer, duration } = await generateAudio(text, voice.voice_id, languageBoost, PRIMARY_MODEL)
+        const { buffer, duration } = await generateAudio(
+          text,
+          voice.voice_id,
+          languageBoost,
+          PRIMARY_MODEL
+        )
         writeFileSync(filepath, buffer)
         console.log(`${label} — saved (${(buffer.length / 1024).toFixed(1)} KB, ${duration}ms)`)
         successCount++

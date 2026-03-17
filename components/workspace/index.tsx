@@ -4,6 +4,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import { AlertCircle, Download, Loader2, Plus, Volume2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { SectionTitle } from '@/components/common/section-title'
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
@@ -127,9 +128,7 @@ export function WorkspacePage({ onBack }: WorkspacePageProps) {
               <ScrollArea className="flex-1">
                 <div className="flex flex-col gap-6 p-5">
                   <div>
-                    <h3 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {t('configPanel')}
-                    </h3>
+                    <SectionTitle className="mb-3 font-semibold">{t('configPanel')}</SectionTitle>
                     <VoiceSelector />
                   </div>
 

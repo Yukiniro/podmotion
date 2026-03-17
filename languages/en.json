@@ -3,15 +3,16 @@
     "back": "Back",
     "loading": "Loading...",
     "error": "An error occurred",
-    "youtubeToPocast": "YouTube to Podcast"
+    "contentToPodcast": "Content to Podcast"
   },
   "home": {
-    "title": "Turn any YouTube video into a podcast",
-    "description": "Extract subtitles, generate scripts with emotions, and produce expressive content.",
-    "placeholder": "Paste a YouTube URL...",
+    "title": "Turn any content into a podcast",
+    "description": "Paste a link or text, generate scripts with emotions, and produce expressive podcasts.",
+    "placeholder": "Paste a YouTube link, web URL, or type your content...",
     "start": "Start",
-    "errorEmpty": "Please enter a YouTube video URL",
-    "errorInvalid": "Please enter a valid YouTube URL",
+    "errorEmpty": "Please enter a link or some text",
+    "errorInvalid": "Please enter a valid URL",
+    "errorTextTooShort": "Please enter at least 50 characters",
     "steps": {
       "aiScript": "AI Script Generation",
       "emotionTagging": "Emotion Tagging"
@@ -23,6 +24,8 @@
     "waitingSummary": "Analyzing Content...",
     "subtitles": "Subtitles",
     "contentSummary": "Content Summary",
+    "webSource": "Source",
+    "textInput": "Text Input",
     "style": "Style",
     "styles": {
       "popular-science": {
@@ -33,17 +36,9 @@
         "label": "News Brief",
         "description": "Formal, objective reporting"
       },
-      "interview": {
-        "label": "Deep Interview",
-        "description": "In-depth Q&A dialogue"
-      },
       "casual": {
         "label": "Casual Chat",
         "description": "Relaxed conversation style"
-      },
-      "narrative": {
-        "label": "Storytelling",
-        "description": "Immersive narrative"
       }
     },
     "speakers": "Speakers",
@@ -81,6 +76,7 @@
   },
   "toast": {
     "transcriptError": "Failed to fetch transcript. Please try again.",
+    "scrapeError": "Failed to fetch web page content. Please try again.",
     "summaryError": "Failed to generate summary. Please try again.",
     "scriptError": "Failed to generate script. Please try again."
   }

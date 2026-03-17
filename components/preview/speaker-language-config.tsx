@@ -3,6 +3,7 @@
 import { useAtom, useAtomValue } from 'jotai'
 import { useTranslations } from 'next-intl'
 
+import { FormField } from '@/components/common/form-field'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { languageAtom, speakersAtom, supportedSpeakersAtom } from '@/lib/atoms/preview-atoms'
 
@@ -14,8 +15,7 @@ export function SpeakerLanguageConfig() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3">
-        <label className="text-sm font-medium text-foreground">{t('speakers')}</label>
+      <FormField label={t('speakers')}>
         <Tabs value={String(speakers)} onValueChange={(v) => setSpeakers(Number(v) as 1 | 2)}>
           <TabsList className="w-full">
             <TabsTrigger value="1" className="flex-1" disabled={!supportedSpeakers.includes(1)}>
@@ -26,10 +26,9 @@ export function SpeakerLanguageConfig() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
+      </FormField>
 
-      <div className="flex flex-col gap-3">
-        <label className="text-sm font-medium text-foreground">{t('language')}</label>
+      <FormField label={t('language')}>
         <Tabs value={language} onValueChange={(v) => setLanguage(v as 'zh' | 'en')}>
           <TabsList className="w-full">
             <TabsTrigger value="en" className="flex-1">
@@ -40,7 +39,7 @@ export function SpeakerLanguageConfig() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
+      </FormField>
     </div>
   )
 }

@@ -3,6 +3,7 @@
 import { RefreshCw } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 
+import { AppHeader } from '@/components/common/app-header'
 import { BackButton } from '@/components/common/back-button'
 import { PodmotionLogo } from '@/components/podmotion-logo'
 import { Button } from '@/components/ui/button'
@@ -17,7 +18,7 @@ export function WorkspaceHeader({ onBack, onRegenerate, isGenerating }: Workspac
   const t = useTranslations('workspace')
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between border-b border-border/50 bg-background/80 px-6 py-3 backdrop-blur-xl">
+    <AppHeader className="py-3">
       <div className="flex items-center gap-3">
         <BackButton onClick={onBack} />
         <div className="h-4 w-px bg-border" />
@@ -35,6 +36,6 @@ export function WorkspaceHeader({ onBack, onRegenerate, isGenerating }: Workspac
           {t('regenerate')}
         </Button>
       </div>
-    </header>
+    </AppHeader>
   )
 }

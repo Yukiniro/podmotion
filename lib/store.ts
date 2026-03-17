@@ -3,7 +3,9 @@
 // Simple state store for Podmotion multi-page flow
 export type AppPage = 'home' | 'preview' | 'workspace'
 
-export type PodcastStyle = 'popular-science' | 'news' | 'interview' | 'casual' | 'narrative'
+export type InputMode = 'youtube' | 'web-url' | 'text'
+
+export type PodcastStyle = 'popular-science' | 'news' | 'casual'
 
 export interface StyleOption {
   id: PodcastStyle
@@ -14,6 +16,13 @@ export interface StyleOption {
 }
 
 export const STYLE_OPTIONS: StyleOption[] = [
+  {
+    id: 'casual',
+    label: 'Casual Chat',
+    description: 'Relaxed conversation style',
+    defaultSpeakers: 2,
+    supportedSpeakers: [1, 2],
+  },
   {
     id: 'popular-science',
     label: 'Popular Science',
@@ -27,27 +36,6 @@ export const STYLE_OPTIONS: StyleOption[] = [
     description: 'Formal, objective reporting',
     defaultSpeakers: 1,
     supportedSpeakers: [1, 2],
-  },
-  {
-    id: 'interview',
-    label: 'Deep Interview',
-    description: 'In-depth Q&A dialogue',
-    defaultSpeakers: 2,
-    supportedSpeakers: [2],
-  },
-  {
-    id: 'casual',
-    label: 'Casual Chat',
-    description: 'Relaxed conversation style',
-    defaultSpeakers: 2,
-    supportedSpeakers: [1, 2],
-  },
-  {
-    id: 'narrative',
-    label: 'Storytelling',
-    description: 'Immersive narrative',
-    defaultSpeakers: 1,
-    supportedSpeakers: [1],
   },
 ]
 

@@ -46,14 +46,14 @@ export async function POST(req: Request) {
     model: 'google/gemini-2.5-flash',
     output: Output.array({ element: paragraphSchema }),
     system: buildScriptSystemPrompt({ style, speakers, language }),
-    prompt: `Video Summary:\n${summary}\n\nFull Transcript:\n${transcript}`,
+    prompt: `Content Summary:\n${summary}\n\nSource Content:\n${transcript}`,
   })
 
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder()
       for await (const paragraph of result.elementStream) {
-        controller.enqueue(encoder.encode(`${JSON.stringify(paragraph)  }\n`))
+        controller.enqueue(encoder.encode(`${JSON.stringify(paragraph)}\n`))
       }
       controller.close()
     },

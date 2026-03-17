@@ -47,7 +47,7 @@ export function useVoices() {
 
   const languageVoices = useMemo(
     () => voiceList.filter((v) => v.language === languageFilter),
-    [voiceList, languageFilter],
+    [voiceList, languageFilter]
   )
 
   const voicesForA = useMemo(
@@ -55,7 +55,7 @@ export function useVoices() {
       genderFilterA === 'all'
         ? languageVoices
         : languageVoices.filter((v) => v.gender === genderFilterA),
-    [languageVoices, genderFilterA],
+    [languageVoices, genderFilterA]
   )
 
   const voicesForB = useMemo(
@@ -63,7 +63,7 @@ export function useVoices() {
       genderFilterB === 'all'
         ? languageVoices
         : languageVoices.filter((v) => v.gender === genderFilterB),
-    [languageVoices, genderFilterB],
+    [languageVoices, genderFilterB]
   )
 
   useEffect(() => {

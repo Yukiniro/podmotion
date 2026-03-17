@@ -8,6 +8,7 @@ import { Loader2, Square, Volume2 } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 
+import { ChipButton } from '@/components/common/chip-button'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -74,17 +75,9 @@ function SpeakerVoicePicker({
       <label className="text-[11px] font-medium text-muted-foreground">{label}</label>
       <div className="flex gap-1">
         {GENDER_OPTIONS.map((g) => (
-          <button
-            key={g}
-            onClick={() => onGenderChange(g)}
-            className={`rounded-lg px-2 py-0.5 text-[11px] transition-colors duration-150 ease-out ${
-              genderFilter === g
-                ? 'bg-foreground text-background'
-                : 'bg-muted text-muted-foreground hover:text-foreground'
-            }`}
-          >
+          <ChipButton key={g} active={genderFilter === g} onClick={() => onGenderChange(g)}>
             {genderLabels[g]}
-          </button>
+          </ChipButton>
         ))}
       </div>
       <div className="flex items-center gap-1.5">

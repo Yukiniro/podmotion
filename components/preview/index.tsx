@@ -1,59 +1,64 @@
 'use client'
 
+import type { InputMode } from '@/lib/store'
+
 import { useAtomValue } from 'jotai'
 import { ArrowRight } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
 
+import { AppHeader } from '@/components/common/app-header'
 import { BackButton } from '@/components/common/back-button'
+import { SectionTitle } from '@/components/common/section-title'
 import { PodmotionLogo } from '@/components/podmotion-logo'
 import { Button } from '@/components/ui/button'
 import { useSummary } from '@/hooks/use-summary'
-import { useTranscript } from '@/hooks/use-transcript'
-import { useVideoLoading } from '@/hooks/use-video-loading'
 import { summaryStatusAtom } from '@/lib/atoms/preview-atoms'
 import { AISummary } from './ai-summary'
+import { TextContentLoader, WebContentLoader, YouTubeContentLoader } from './content-loaders'
+import { ContentPreview } from './content-preview'
 import { SpeakerLanguageConfig } from './speaker-language-config'
 import { StyleSelector } from './style-selector'
-import { VideoPreview } from './video-preview'
 
 interface PreviewPageProps {
-  videoUrl: string
+  input: string
+  inputMode: InputMode
   onBack: () => void
   onGenerate: () => void
 }
 
-export function PreviewPage({ videoUrl, onBack, onGenerate }: PreviewPageProps) {
+export function PreviewPage({ input, inputMode, onBack, onGenerate }: PreviewPageProps) {
   const t = useTranslations('preview')
 
   const summaryStatus = useAtomValue(summaryStatusAtom)
   const summaryReady = summaryStatus === 'done'
   const locale = useLocale()
 
-  useVideoLoading()
-
   const { startSummary } = useSummary(locale)
-  useTranscript(videoUrl, startSummary)
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="sticky top-0 z-50 flex items-center justify-between border-b border-border/50 bg-background/80 px-6 py-4 backdrop-blur-xl">
+      {inputMode === 'youtube' && (
+        <YouTubeContentLoader input={input} onContentReady={startSummary} />
+      )}
+      {inputMode === 'web-url' && <WebContentLoader input={input} onContentReady={startSummary} />}
+      {inputMode === 'text' && <TextContentLoader input={input} onContentReady={startSummary} />}
+
+      <AppHeader>
         <BackButton onClick={onBack} />
         <PodmotionLogo />
-      </header>
+      </AppHeader>
 
       <main className="mx-auto grid w-full max-w-6xl flex-1 grid-cols-1 gap-8 px-6 py-8 lg:grid-cols-[1fr_380px]">
         <div className="flex flex-col gap-8">
           <section>
-            <VideoPreview videoUrl={videoUrl} />
+            <ContentPreview input={input} inputMode={inputMode} />
           </section>
           <div className="h-px bg-border" />
           <AISummary />
         </div>
 
         <div className="flex flex-col gap-8">
-          <h3 className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            {t('podcastConfig')}
-          </h3>
+          <SectionTitle>{t('podcastConfig')}</SectionTitle>
 
           <StyleSelector />
           <SpeakerLanguageConfig />
