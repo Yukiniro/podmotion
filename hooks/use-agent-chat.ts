@@ -4,7 +4,7 @@ import type { ScriptParagraph } from '@/lib/store'
 
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport } from 'ai'
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 
 interface CoverImage {
   base64: string
@@ -17,10 +17,24 @@ interface AudioResult {
   duration: number
 }
 
-export function useAgentChat() {
+interface UseAgentChatOptions {
+  initialMessage?: string
+}
+
+export function useAgentChat(options: UseAgentChatOptions = {}) {
+  const { initialMessage } = options
+  const initialSentRef = useRef(false)
+
   const chat = useChat({
     transport: new DefaultChatTransport({ api: '/api/agent' }),
   })
+
+  useEffect(() => {
+    if (initialMessage && !initialSentRef.current) {
+      initialSentRef.current = true
+      chat.sendMessage({ text: initialMessage })
+    }
+  }, [initialMessage]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { script, coverImage, audioResults } = useMemo(() => {
     let script: ScriptParagraph[] = []

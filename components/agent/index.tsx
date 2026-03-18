@@ -17,9 +17,13 @@ import { AgentEmptyState } from './agent-empty-state'
 import { AgentInput } from './agent-input'
 import { AgentMessage } from './agent-message'
 
-export function AgentContainer() {
+interface AgentContainerProps {
+  initialInput?: string
+}
+
+export function AgentContainer({ initialInput }: AgentContainerProps) {
   const tc = useTranslations('common')
-  const { messages, sendMessage, status, stop } = useAgentChat()
+  const { messages, sendMessage, status, stop } = useAgentChat({ initialMessage: initialInput })
 
   const hasMessages = messages.length > 0
 
