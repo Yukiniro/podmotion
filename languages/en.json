@@ -3,7 +3,20 @@
     "back": "Back",
     "loading": "Loading...",
     "error": "An error occurred",
-    "contentToPodcast": "Content to Podcast"
+    "contentToPodcast": "Content to Podcast",
+    "aiAssistant": "AI Assistant"
+  },
+  "agent": {
+    "title": "Podmotion AI",
+    "description": "Provide a YouTube link, web URL, text file, or plain text — and I'll turn it into a podcast for you.",
+    "placeholder": "Paste a YouTube link, web URL, or type your content...",
+    "attachFile": "Attach text file",
+    "suggestions": {
+      "youtube": "Create a podcast from a YouTube video",
+      "article": "Turn this web article into a podcast",
+      "science": "Write a science podcast about space exploration",
+      "news": "Generate a news podcast about AI trends"
+    }
   },
   "home": {
     "title": "Turn any content into a podcast",

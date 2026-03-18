@@ -10,6 +10,7 @@ import { AppHeader } from '@/components/common/app-header'
 import { PodmotionLogo } from '@/components/podmotion-logo'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { Link } from '@/i18n/navigation'
 import { classifyInput, isValidUrl } from '@/lib/utils/validators'
 
 interface HomePageProps {
@@ -52,7 +53,15 @@ export function HomePage({ onNavigate }: HomePageProps) {
     <div className="flex min-h-screen flex-col">
       <AppHeader>
         <PodmotionLogo />
-        <span className="text-sm text-muted-foreground">{tc('contentToPodcast')}</span>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-muted-foreground">{tc('contentToPodcast')}</span>
+          <Link
+            href="/agent"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {tc('aiAssistant')}
+          </Link>
+        </div>
       </AppHeader>
 
       <main className="flex flex-1 flex-col items-center justify-center px-6 pb-32">
