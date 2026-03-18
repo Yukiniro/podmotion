@@ -6,7 +6,13 @@ export async function POST(req: Request) {
     return Response.json({ success: true })
   }
 
-  const { code } = (await req.json()) as { code: string }
+  let code: string
+  try {
+    const body = await req.json()
+    code = body.code
+  } catch {
+    return Response.json({ error: 'Invalid request' }, { status: 400 })
+  }
 
   if (!code || code !== inviteCode) {
     return Response.json({ error: 'Invalid invitation code' }, { status: 401 })
