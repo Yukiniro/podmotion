@@ -3,7 +3,20 @@
     "back": "返回",
     "loading": "加载中...",
     "error": "发生错误",
-    "contentToPodcast": "内容转播客"
+    "contentToPodcast": "内容转播客",
+    "aiAssistant": "AI 助手"
+  },
+  "agent": {
+    "title": "Podmotion AI",
+    "description": "提供 YouTube 链接、网页链接、文本文件或纯文本，我来帮你制作播客。",
+    "placeholder": "粘贴 YouTube 链接、网页链接，或输入你的内容...",
+    "attachFile": "附加文本文件",
+    "suggestions": {
+      "youtube": "从 YouTube 视频创建播客",
+      "article": "将这篇网页文章转为播客",
+      "science": "写一个关于太空探索的科普播客",
+      "news": "生成一期关于 AI 趋势的新闻播客"
+    }
   },
   "home": {
     "title": "将任意内容转为播客",

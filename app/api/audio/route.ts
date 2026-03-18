@@ -1,72 +1,8 @@
-import { Buffer } from 'node:buffer'
 import process from 'node:process'
 
-const MINIMAX_API_URL = 'https://api.minimax.io/v1/t2a_v2'
-const PRIMARY_MODEL = 'speech-2.8-turbo'
-const FALLBACK_MODEL = 'speech-2.6-turbo'
+import { callMiniMax, decodeAudioBuffer, FALLBACK_MODEL, PRIMARY_MODEL } from '@/lib/server/minimax'
 
 export const maxDuration = 60
-
-const LANGUAGE_MAP: Record<string, string> = {
-  zh: 'Chinese',
-  en: 'English',
-}
-
-interface MiniMaxT2AResponse {
-  data?: {
-    audio?: string
-    status?: number
-  }
-  extra_info?: {
-    audio_length?: number
-    audio_sample_rate?: number
-    audio_size?: number
-    audio_format?: string
-    usage_characters?: number
-  }
-  base_resp?: {
-    status_code: number
-    status_msg: string
-  }
-}
-
-async function callMiniMax(
-  apiKey: string,
-  text: string,
-  voiceId: string,
-  language: string,
-  model: string
-): Promise<MiniMaxT2AResponse> {
-  const res = await fetch(MINIMAX_API_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model,
-      text,
-      voice_setting: {
-        voice_id: voiceId,
-        speed: 1.0,
-        vol: 1.0,
-        pitch: 0,
-      },
-      audio_setting: {
-        format: 'mp3',
-        sample_rate: 32000,
-      },
-      language_boost: LANGUAGE_MAP[language] ?? 'English',
-    }),
-  })
-
-  if (!res.ok) {
-    const errorText = await res.text()
-    throw new Error(`MiniMax API HTTP ${res.status}: ${errorText}`)
-  }
-
-  return res.json()
-}
 
 export async function POST(req: Request) {
   const apiKey = process.env.MINIMAX_API_KEY
@@ -111,7 +47,7 @@ export async function POST(req: Request) {
       return Response.json({ error: 'No audio data returned' }, { status: 502 })
     }
 
-    const audioBuffer = Buffer.from(data.data.audio, 'hex')
+    const audioBuffer = decodeAudioBuffer(data.data.audio)
     const duration = data.extra_info?.audio_length ?? 0
 
     return new Response(audioBuffer, {
