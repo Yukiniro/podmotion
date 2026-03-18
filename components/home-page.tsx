@@ -1,7 +1,5 @@
 'use client'
 
-import type { InputMode } from '@/lib/store'
-
 import { ArrowRight } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
@@ -14,7 +12,7 @@ import { Link } from '@/i18n/navigation'
 import { classifyInput, isValidUrl } from '@/lib/utils/validators'
 
 interface HomePageProps {
-  onNavigate: (input: string, mode: InputMode) => void
+  onNavigate: (input: string) => void
 }
 
 export function HomePage({ onNavigate }: HomePageProps) {
@@ -31,7 +29,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
       setError(t('errorEmpty'))
       return
     }
-    const mode: InputMode = classifyInput(trimmed)
+    const mode = classifyInput(trimmed)
     if (mode === 'youtube' || mode === 'web-url') {
       if (!isValidUrl(trimmed)) {
         setError(t('errorInvalid'))
@@ -45,7 +43,7 @@ export function HomePage({ onNavigate }: HomePageProps) {
     setIsLoading(true)
     setTimeout(() => {
       setIsLoading(false)
-      onNavigate(trimmed, mode)
+      onNavigate(trimmed)
     }, 800)
   }
 
