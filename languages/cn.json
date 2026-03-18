@@ -87,6 +87,16 @@
     "scriptPanel": "脚本",
     "configPanel": "设置"
   },
+  "invite": {
+    "title": "需要邀请码",
+    "description": "请输入邀请码以访问 Podmotion。",
+    "placeholder": "请输入邀请码",
+    "submit": "继续",
+    "verifying": "验证中...",
+    "errorEmpty": "请输入邀请码",
+    "errorInvalid": "邀请码无效，请重试。",
+    "errorNetwork": "网络错误，请重试。"
+  },
   "toast": {
     "transcriptError": "字幕获取失败，请重试。",
     "scrapeError": "网页内容获取失败，请重试。",

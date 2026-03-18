@@ -87,6 +87,16 @@
     "scriptPanel": "Script",
     "configPanel": "Settings"
   },
+  "invite": {
+    "title": "Invitation Required",
+    "description": "Enter your invitation code to access Podmotion.",
+    "placeholder": "Enter invitation code",
+    "submit": "Continue",
+    "verifying": "Verifying...",
+    "errorEmpty": "Please enter an invitation code",
+    "errorInvalid": "Invalid invitation code. Please try again.",
+    "errorNetwork": "Network error. Please try again."
+  },
   "toast": {
     "transcriptError": "Failed to fetch transcript. Please try again.",
     "scrapeError": "Failed to fetch web page content. Please try again.",
