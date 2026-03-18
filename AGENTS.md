@@ -3,7 +3,7 @@
 ## 构建与开发命令
 
 ```bash
-pnpm dev             # 启动开发服务器
+pnpm dev             # 启动开发服务器（Turbo 模式）
 pnpm build           # 生产环境构建
 pnpm start           # 启动生产服务器
 pnpm lint            # 运行 ESLint
@@ -12,12 +12,15 @@ pnpm type-check      # TypeScript 编译检查
 pnpm test            # 监听模式运行测试
 pnpm test:run        # 单次运行测试
 pnpm test:ui         # 带 UI 运行测试
-pnpm test:coverage   # 生成测试覆盖率报告
+pnpm test:coverage   # 生成测试覆盖率报告（v8）
 pnpm format          # 格式化代码
 pnpm format:check    # 检查代码格式
+pnpm generate:voice-previews  # 预生成 TTS 语音样本
 ```
 
 说明：本项目使用 Vitest 做单元测试，使用 Prettier 做代码格式化。
+
+运行单个测试文件：`pnpm vitest run lib/services/transcript.test.ts`
 
 ## 代码风格规范
 
@@ -71,45 +74,95 @@ import { Button } from '@/components/ui/button'
 ```text
 app/                          # Next.js App Router
   [locale]/                   # 国际化路由页面
+    page.tsx                  # 首页（YouTube URL / 文本输入）
+    agent/page.tsx            # Agent 页面（AI 对话式播客生成）
+    invite/page.tsx           # 邀请码验证页面
   api/                        # API Route（服务端）
+    agent/                    # Agent 对话/推理
+    audio/                    # TTS 音频生成（MiniMax）
+    auth/verify-invite/       # 邀请码验证
+    scrape/                   # 网页抓取
+    script/                   # AI 脚本生成（流式 NDJSON）
+    summary/                  # AI 摘要生成（流式）
+    transcript/               # YouTube 转录提取（Supadata）
 
 components/                   # UI 层（纯视图）
-  ui/                         # 通用 UI 组件（shadcn/ui）
-  preview/                    # Preview 页面组件（index.tsx 为容器）
-  workspace/                  # Workspace 页面组件（index.tsx 为容器）
+  ui/                         # 通用 UI 组件（shadcn/ui，~57 个）
+  agent/                      # Agent 容器、输入、消息、工具渲染器
+  preview/                    # Preview 组件（摘要、视频预览、风格配置）
+  workspace/                  # Workspace 组件（段落卡片、语音选择器）
+  ai-elements/                # AI 聊天 UI（代码块、音频播放器等）
+  common/                     # 共享 UI（页头、按钮、表单字段）
   home-page.tsx               # 首页
-  export-page.tsx             # 导出页
+  invite-gate.tsx             # 邀请码验证 UI
 
 hooks/                        # Hook 层（编排 Service + Atom）
   use-transcript.ts           # 转录加载编排
   use-summary.ts              # 流式摘要编排
+  use-script.ts               # 流式脚本生成编排
   use-paragraphs.ts           # 段落 CRUD + 音频生成
-  use-audio-player.ts         # 播放器控制
-  use-export-player.ts        # 导出页播放器
+  use-paragraph-audio.ts      # 单段落音频生成
+  use-audio-preview.ts        # 音频预览播放
+  use-voices.ts               # TTS 语音列表管理
+  use-agent-chat.ts           # Agent 对话编排
+  use-scrape.ts               # 网页抓取编排
+  use-export.ts               # 播客导出
   use-video-loading.ts        # 视频加载状态
+  use-text-input.ts           # 文本输入状态
   use-style-config.ts         # 风格切换（含联动逻辑）
+  use-toast.ts                # Toast 通知
+  use-mobile.tsx              # 移动端检测
 
 lib/
   atoms/                      # Atom 层（纯状态定义，Jotai）
-    preview-atoms.ts          # Preview 页面状态
-    workspace-atoms.ts        # Workspace 页面状态
-    export-atoms.ts           # Export 页面状态
+    preview-atoms.ts          # Preview 状态
+    workspace-atoms.ts        # Workspace 状态
   services/                   # Service 层（函数式业务逻辑，不依赖 React）
     transcript.ts             # 转录获取 + 缓存
     summary.ts                # 流式摘要 API
+    script.ts                 # 流式脚本生成（NDJSON 解析）
     audio.ts                  # 音频生成 API
+    voices.ts                 # TTS 语音列表获取
+    scrape.ts                 # 网页抓取
     cache.ts                  # 缓存读写封装
   utils/                      # Utils 层（纯函数）
     format.ts                 # 时间格式化
-    validators.ts             # URL 验证
+    validators.ts             # URL / 输入验证
     emotion.tsx               # 情感标记渲染
+    agent.ts                  # Agent 相关工具
+    invite.ts                 # 邀请码生成/验证
+  server/                     # 服务端专用代码
+    minimax.ts                # MiniMax API 封装
+    schemas.ts                # Zod 请求校验 schema
+  prompts/                    # AI 提示词模板
+    agent.ts                  # Agent 对话提示词
+    script.ts                 # 脚本生成提示词
+    summary.ts                # 摘要生成提示词
+    constants.ts              # 共享常量
   store.ts                    # 全局类型定义 + 常量
   storage.ts                  # IndexedDB 底层封装
   utils.ts                    # cn() 工具函数
 
-i18n/                         # 国际化配置
-languages/                    # 翻译文件
+i18n/                         # 国际化配置（routing, navigation, request）
+languages/                    # 翻译文件（en.json, cn.json）
+scripts/                      # 工具脚本（generate-voice-previews）
 ```
+
+### 应用流程
+
+应用使用三个路由，Agent 页面内部管理大部分播客工作流：
+
+1. **首页** (`/[locale]/`) — YouTube URL 或文本输入，验证后跳转到 Agent 页面
+2. **Agent** (`/[locale]/agent?q=<query>`) — AI 对话式界面，统一管理：转录提取、流式摘要、风格/说话人配置、脚本生成（NDJSON）、语音选择、逐段音频生成、导出。Preview 和 Workspace 是此页面内的 UI 状态，不是独立路由。
+3. **邀请** (`/[locale]/invite`) — 邀请码验证（当设置了 `INVITE_CODE` 环境变量时激活）
+
+### Agent 架构
+
+Agent 页面（`components/agent/`）使用基于工具的模式：
+- `tool-registry.ts` — 注册可用的工具/操作
+- `tool-renderers.tsx` — 在聊天界面中渲染丰富的交互元素
+- `agent-input.tsx` — 用户输入组件
+- `agent-message.tsx` — 消息展示组件
 
 ### 国际化
 
@@ -125,6 +178,12 @@ languages/                    # 翻译文件
 - 工具函数：kebab-case（`format-date.ts`）
 - 常量：SCREAMING_SNAKE_CASE（`DEFAULT_CONFIG`）
 - 组件文件用 kebab-case，类型/钩子用 camelCase
+
+### ESLint 配置
+
+- 使用 `@antfu/eslint-config` 配合 React 插件
+- `components/ai-elements/` 和 `components/ui/` 目录不参与 lint 检查
+- Prettier 配置：单引号、无分号、尾逗号 es5、行宽 100、Tailwind class 排序
 
 ### 包管理
 
@@ -187,7 +246,7 @@ export async function fetchTranscript(
 
 规范：
 
-- 每个 Service 文件对应一个业务域（transcript、summary、audio、cache）
+- 每个 Service 文件对应一个业务域（transcript、summary、script、audio、voices、scrape、cache）
 - 函数签名明确：参数使用基本类型或自定义接口，不接受 React 特有类型
 - 流式 API 通过 `onChunk` 回调返回中间结果，不直接操作状态
 - 错误通过 `throw` 抛出，由 Hook 层统一捕获处理
@@ -209,7 +268,7 @@ export const totalDurationAtom = atom((get) => {
 
 规范：
 
-- 按页面/功能域拆分文件：`preview-atoms.ts`、`workspace-atoms.ts`、`export-atoms.ts`
+- 按页面/功能域拆分文件：`preview-atoms.ts`、`workspace-atoms.ts`
 - 基础 atom 使用 `atom(initialValue)` 定义
 - 派生 atom 使用 `atom((get) => ...)` 只读计算
 - 不使用 write-only atom（如 `atom(null, (get, set, ...) => ...)`），业务逻辑放到 Hook 层
@@ -264,7 +323,7 @@ export function AISummary() {
 
 - 组件**不直接**调用 `fetch`、操作缓存或执行业务逻辑
 - 容器组件（如 `preview/index.tsx`）负责调用 Hooks，子组件通过 props 接收数据和回调
-- 功能区域使用目录组织（`preview/`、`workspace/`），入口为 `index.tsx`
+- 功能区域使用目录组织（`agent/`、`preview/`、`workspace/`），入口为 `index.tsx`
 - 子组件通过 props 接收所有交互回调，不直接操作 Atom（保持纯粹）
 - 纯 UI 级别的局部状态（如表单输入、hover 状态）可以使用 `useState`
 
@@ -289,6 +348,17 @@ export function isValidYoutubeUrl(url: string): boolean {
 - 一个文件一个职责域
 - 包含 JSX 渲染逻辑的工具函数使用 `.tsx` 扩展名
 - 不导入 React Hooks 或状态管理库
+
+### 环境变量
+
+必需的环境变量（见 `.env.example`）：
+
+| 变量 | 用途 |
+|---|---|
+| `AI_GATEWAY_API_KEY` | Vercel AI Gateway（Google Gemini） |
+| `SUPADATA_API_KEY` | YouTube 转录提取 |
+| `MINIMAX_API_KEY` | TTS 音频生成 |
+| `INVITE_CODE` | 可选 — 启用邀请码验证 |
 
 ### 测试规范
 
